@@ -10,6 +10,12 @@ import SceneKit
 
 class GeometrySourceFactory {
    
+   // Scenekit-friendly vertex type
+   private struct Vertex {
+      let x, y, z: Float // Vertex
+      let nx, ny, nz: Float // Normal
+   }
+   
    static func scnGeometrySource(from solid: Solid) -> SCNGeometrySource {
       let result = vertexData(from: solid)
       let geometrySource = SCNGeometrySource(data: result.vertexData,
@@ -20,13 +26,7 @@ class GeometrySourceFactory {
                                              bytesPerComponent: result.bytesPerComponent,
                                              dataOffset: result.dataOffset,
                                              dataStride: result.dataStride)
-      
       return geometrySource
-   }
-   
-   private struct Vertex {
-      let x, y, z: Float // Vertex
-      let nx, ny, nz: Float // Normal
    }
    
    private static func vertexData(from solid: Solid) -> (vertexData: Data,
@@ -77,8 +77,9 @@ class GeometrySourceFactory {
    }
 }
 
-extension Array {
+fileprivate extension Array {
    // Credit: adapted from https://stackoverflow.com/a/33802092/2201154
+   // Note, as documented in link above this will only work with basic number types and likely not with, eg, String.
     func asData() -> Data {
         return self.withUnsafeBufferPointer({
            Data(bytes: $0.baseAddress!, count: count * MemoryLayout<Element>.stride)

@@ -9,12 +9,13 @@ import Foundation
 import UniformTypeIdentifiers
 import Combine
 import SceneKit
+import SwiftUI
 
 class MeshViewModel: ObservableObject {
    
    @Published private(set) var validPathDropped = false
    @Published private(set) var parsingState: MeshParsingState = .initial
-
+   @Published private(set) var parsingProgress: Float = 0
    private var model: MeshParsing // TODO: make private and add separate mesh to viewmodel
    public private(set) var solid: Solid?
    public private(set) var solidExtents: SolidExtents?
@@ -36,11 +37,22 @@ class MeshViewModel: ObservableObject {
                let geometrySource = GeometrySourceFactory.scnGeometrySource(from: solid)
                let geometryElement = GeometryElementFactory.scnGeometryElement(from: solid)
                let geometry = SCNGeometry(sources: [geometrySource], elements: [geometryElement])
-               geometry.name = "Testing"
+               
+               let material = SCNMaterial()
+               let materialProperty = SCNMaterialProperty(contents: Color.green)
+               material.diffuse.contents = materialProperty
+               geometry.materials = [material]
+               
                self.scnGeometry = geometry
             }
             
             self.parsingState = state
+         }.store(in: &cancellables)
+      
+      model.parsingProgressPublisher
+         .receive(on: DispatchQueue.main)
+         .sink { (parsingProgress) in
+            self.parsingProgress = parsingProgress
          }.store(in: &cancellables)
    }
 }

@@ -10,10 +10,14 @@ import Foundation
 class MeshParser: MeshParsing, ObservableObject {
    
    var fileURL: URL?
-   @Published public private(set) var state: MeshParsingState = .initial
    public private(set) var solid: Solid? = nil
-   var solidExtents: SolidExtents?
+   private(set) var solidExtents: SolidExtents?
+   
+   @Published public private(set) var state: MeshParsingState = .initial
    var statePublisher: Published<MeshParsingState>.Publisher { $state }
+   
+   @Published public private(set) var parsingProgress: Float = 0
+   var parsingProgressPublisher: Published<Float>.Publisher { $parsingProgress }
    
    func start() {
             
@@ -23,8 +27,6 @@ class MeshParser: MeshParsing, ObservableObject {
       }
       
       self.state = .parsing
-      // Determine whether the file is in binary or ASCII STL format.
-      // If the first five bytes spell 'solid' we assume it's ASCII, otherwise assume it's binary
       
       let fileType = fileType(fileURL)
       let result: (solid: Solid?, solidExtents: SolidExtents?)
@@ -50,6 +52,8 @@ class MeshParser: MeshParsing, ObservableObject {
       self.state = .parsed
    }
    
+   // Determines whether the file is in binary or ASCII STL format.
+   // If the first five bytes spell 'solid' we assume it's ASCII, otherwise assume it's binary
    private func fileType(_ fileURL: URL) -> MeshParsingState.FileType {
       guard let url = self.fileURL else {
          return .unknown
@@ -90,18 +94,21 @@ class MeshParser: MeshParsing, ObservableObject {
       } catch {
          return (nil, nil)
       }
+
+      var parsingProgressCount = 0
+      let parsingProgressUpdateThreshold = 1000
       
-      var facets: [Solid.Facet] = []
       var minX = Float.greatestFiniteMagnitude
       var minY = Float.greatestFiniteMagnitude
       var minZ = Float.greatestFiniteMagnitude
       var maxX = -Float.greatestFiniteMagnitude
       var maxY = -Float.greatestFiniteMagnitude
       var maxZ = -Float.greatestFiniteMagnitude
-      
+
+      var facets: [Solid.Facet] = []
       var indexPointer = facetStartIndex
       
-      for _ in 1...facetCount {
+      for index in 1...facetCount {
 
          let i = floatFromData(data, startIndex: indexPointer)
          indexPointer += 4
@@ -172,6 +179,12 @@ class MeshParser: MeshParsing, ObservableObject {
          if v1z > maxZ { maxZ = v1z }
          if v2z > maxZ { maxZ = v2z }
          if v3z > maxZ { maxZ = v3z }
+         
+         parsingProgressCount += 1
+         if parsingProgressCount > parsingProgressUpdateThreshold {
+            self.parsingProgress = Float(index) / Float(facetCount)
+            parsingProgressCount = 0
+         }
       }
       
       let solid = Solid(name: fileURL.lastPathComponent, facets: facets)
@@ -181,6 +194,10 @@ class MeshParser: MeshParsing, ObservableObject {
       print("parsed in \(String(format: "%.2f", -elapsed)) seconds")
       
       return (solid, solidExtents)
+   }
+   
+   private func parseASCII(_ fileURL: URL) -> (solid: Solid?, solidExtents: SolidExtents?) {
+      return (nil, nil) // TODO:
    }
    
    private func uInt32FromData(_ data: Data, startIndex: Int) -> UInt32 {
@@ -196,9 +213,5 @@ class MeshParser: MeshParsing, ObservableObject {
       let uInt = UInt32(littleEndian: array.withUnsafeBytes{ $0.load(as: UInt32.self) })
       let float = Float(bitPattern: uInt)
       return float
-   }
-   
-   private func parseASCII(_ fileURL: URL) -> (solid: Solid?, solidExtents: SolidExtents?) {
-      return (nil, nil) // TODO:
    }
 }

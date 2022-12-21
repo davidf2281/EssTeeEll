@@ -46,8 +46,11 @@ extension ContentView {
    }
    
    private func parsingView() -> some View {
-      Text("Parsing")
-         .frame(maxWidth: .infinity, maxHeight: .infinity)
+      VStack {
+         Text("Parsing")
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+         ProgressView(value: viewModel.parsingProgress)
+      }
    }
    
    private func parsedView() -> some View {
@@ -110,17 +113,17 @@ struct SceneKitMeshView: View {
       let scene = SCNScene()
       scene.background.contents = SCNMaterialProperty(contents: Color.black)
       let geometryNode = SCNNode(geometry: viewModel.scnGeometry)
-      let material = SCNMaterial()
-      let materialProperty = SCNMaterialProperty(contents: Color.green)
-      material.diffuse.contents = materialProperty
       scene.rootNode.addChildNode(geometryNode)
       self.scene = scene
    }
       
    var cameraNode: SCNNode? {
       let cameraNode = SCNNode()
-      cameraNode.camera = SCNCamera()
+      let camera = SCNCamera()
+      camera.fieldOfView = 30
+      cameraNode.camera = camera
       cameraNode.position = SCNVector3(x: 0, y: 0, z: 20)
+      
       return cameraNode
    }
    
