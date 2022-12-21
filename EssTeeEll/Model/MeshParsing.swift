@@ -13,11 +13,16 @@ enum MeshParsingState {
    case parsed
    case error(ParsingError)
    
+   enum FileType {
+      case binary
+      case ascii
+      case unknown
+   }
+   
    enum ParsingError: Error {
       case readFileError
       case couldNotDetermineFileType
-      case failedBinaryParsing
-      case failedASCIIParsing
+      case failedParsing(FileType)
    }
 }
 
@@ -25,6 +30,7 @@ protocol MeshParsing {
    var fileURL: URL? { get set }
    var state: MeshParsingState { get }
    var solid: Solid? { get }
+   var solidExtents: SolidExtents? { get }
    var statePublisher: Published<MeshParsingState>.Publisher { get }
    var meshPublisher: Published<Solid?>.Publisher { get }
    

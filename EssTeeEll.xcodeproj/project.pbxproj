@@ -166,13 +166,13 @@
 		8CCCE6AC2950C8190008D4F2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				8C91D2982951F4D700271982 /* MeshParsing.swift */,
-				8CCCE6AD2950C8470008D4F2 /* Solid.swift */,
+				8CCCE6B12950D0F90008D4F2 /* ByteReading.swift */,
 				8CCCE6AF2950D0C80008D4F2 /* CFile.swift */,
 				8C91D28E2951EF7600271982 /* File.swift */,
 				8C91D2902951F03F00271982 /* FilingSystemItem.swift */,
-				8CCCE6B12950D0F90008D4F2 /* ByteReading.swift */,
 				8C91D29B2951FED700271982 /* MeshParser.swift */,
+				8C91D2982951F4D700271982 /* MeshParsing.swift */,
+				8CCCE6AD2950C8470008D4F2 /* Solid.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";

@@ -8,17 +8,13 @@
 import Foundation
 
 class MeshParser: MeshParsing, ObservableObject {
+   
    var fileURL: URL?
    @Published public private(set) var state: MeshParsingState = .initial
-   @Published public private(set) var solid: Solid? = nil
+   @Published public private(set) var solid: Solid? = nil // TODO: We probably don't need this to be published and can just use the state changes to drive everything
+   var solidExtents: SolidExtents?
    var statePublisher: Published<MeshParsingState>.Publisher { $state }
    var meshPublisher: Published<Solid?>.Publisher { $solid }
-
-   private enum FileType {
-      case binary
-      case ascii
-      case unknown
-   }
    
    func start() {
             
@@ -32,31 +28,30 @@ class MeshParser: MeshParsing, ObservableObject {
       // If the first five bytes spell 'solid' we assume it's ASCII, otherwise assume it's binary
       
       let fileType = fileType(fileURL)
-      
+      let result: (solid: Solid?, solidExtents: SolidExtents?)
       switch fileType {
      
          case .binary:
-            guard let solid = parseBinary(fileURL) else {
-               self.state = .error(.failedBinaryParsing)
-               return
-            }
-            self.state = .parsed
-            self.solid = solid
-            
+            result = parseBinary(fileURL)
+      
          case .ascii:
-            guard let solid = parseASCII(fileURL) else {
-               self.state = .error(.failedASCIIParsing)
-               return
-            }
-            self.state = .parsed
-            self.solid = solid
-
+            result = parseASCII(fileURL)
+  
          case .unknown:
-            self.state = .error(.couldNotDetermineFileType)
+            result = (nil, nil)
       }
+      
+      guard let solid = result.solid, let solidExtents = result.solidExtents else {
+         self.state = .error(.failedParsing(fileType))
+         return
+      }
+      
+      self.solidExtents = solidExtents
+      self.solid = solid
+      self.state = .parsed
    }
    
-   private func fileType(_ fileURL: URL) -> MeshParser.FileType {
+   private func fileType(_ fileURL: URL) -> MeshParsingState.FileType {
       guard let url = self.fileURL else {
          return .unknown
       }
@@ -80,7 +75,7 @@ class MeshParser: MeshParsing, ObservableObject {
       }
    }
    
-   private func parseBinary(_ fileURL: URL) -> Solid? {
+   private func parseBinary(_ fileURL: URL) -> (solid: Solid?, solidExtents: SolidExtents?) {
       
       let startTime = Date()
       
@@ -94,10 +89,17 @@ class MeshParser: MeshParsing, ObservableObject {
          facetCount = uInt32FromData(data, startIndex: headerLength)
          print("There are \(facetCount) facets")
       } catch {
-         return nil
+         return (nil, nil)
       }
       
       var facets: [Facet] = []
+      var minX = Float.greatestFiniteMagnitude
+      var minY = Float.greatestFiniteMagnitude
+      var minZ = Float.greatestFiniteMagnitude
+      var maxX = -Float.greatestFiniteMagnitude
+      var maxY = -Float.greatestFiniteMagnitude
+      var maxZ = -Float.greatestFiniteMagnitude
+      
       var indexPointer = facetStartIndex
       
       for _ in 1...facetCount {
@@ -145,18 +147,41 @@ class MeshParser: MeshParsing, ObservableObject {
          let v1 = Vertex(x: v1x, y: v1y, z: v1z)
          let v2 = Vertex(x: v2x, y: v2y, z: v2z)
          let v3 = Vertex(x: v3x, y: v3y, z: v3z)
-         
          let facet = Facet(normal: normal, outerLoop: [v1, v2, v3])
          facets.append(facet)
+         
+         if v1x < minX { minX = v1x }
+         if v2x < minX { minX = v2x }
+         if v3x < minX { minX = v3x }
+         
+         if v1y < minY { minY = v1y }
+         if v2y < minY { minY = v2y }
+         if v3y < minY { minY = v3y }
+         
+         if v1z < minZ { minZ = v1z }
+         if v2z < minZ { minZ = v2z }
+         if v3z < minZ { minZ = v3z }
+         
+         if v1x > maxX { maxX = v1x }
+         if v2x > maxX { maxX = v2x }
+         if v3x > maxX { maxX = v3x }
+         
+         if v1y > maxY { maxY = v1y }
+         if v2y > maxY { maxY = v2y }
+         if v3y > maxY { maxY = v3y }
+         
+         if v1z > maxZ { maxZ = v1z }
+         if v2z > maxZ { maxZ = v2z }
+         if v3z > maxZ { maxZ = v3z }
       }
       
       let solid = Solid(name: fileURL.lastPathComponent, facets: facets)
-      
+      let solidExtents = SolidExtents(minX: minX, minY: minY, minZ: minZ, maxX: maxX, maxY: maxY, maxZ: maxZ)
       let elapsed = startTime.timeIntervalSinceNow
       
       print("parsed in \(String(format: "%.2f", -elapsed)) seconds")
       
-      return solid
+      return (solid, solidExtents)
    }
    
    private func uInt32FromData(_ data: Data, startIndex: Int) -> UInt32 {
@@ -174,7 +199,7 @@ class MeshParser: MeshParsing, ObservableObject {
       return float
    }
    
-   private func parseASCII(_ fileURL: URL) -> Solid? {
-      return nil // TODO:
+   private func parseASCII(_ fileURL: URL) -> (solid: Solid?, solidExtents: SolidExtents?) {
+      return (nil, nil) // TODO:
    }
 }
