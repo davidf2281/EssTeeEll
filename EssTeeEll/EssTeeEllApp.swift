@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct EssTeeEllApp: App {
+   
+   private let viewModel = MeshViewModel(model: MeshParser())
+   
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MeshView(viewModel: viewModel)
         }
     }
 }
