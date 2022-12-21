@@ -11,7 +11,7 @@ import SceneKit
 class GeometryElementFactory {
    static func scnGeometryElement(from solid: Solid) -> SCNGeometryElement {
       var indices: [UInt32] = []
-      indices.reserveCapacity(solid.facets.count * 4) // Four because each triangular facet connects in the general vertex order 0, 1, 2, 0
+      indices.reserveCapacity(solid.facets.count * 3) 
       
       var currentIndex: UInt32 = 0
       
@@ -19,7 +19,7 @@ class GeometryElementFactory {
          indices.append(currentIndex)
          indices.append(currentIndex + 1)
          indices.append(currentIndex + 2)
-         indices.append(currentIndex)
+//         indices.append(currentIndex)
          
          currentIndex += 3
       }

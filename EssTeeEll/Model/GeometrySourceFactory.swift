@@ -66,7 +66,7 @@ class GeometrySourceFactory {
          vertices.append(v3)
       }
       
-      let data = Data(bytes: vertices, count: vertices.count)
+      let data = vertices.asData()
    
       return (vertexData: data,
               vertexCount:vertices.count,
@@ -75,4 +75,13 @@ class GeometrySourceFactory {
               dataOffset:MemoryLayout.offset(of: \Vertex.x)!, // TODO: Consider removing force-unwrap
               dataStride: MemoryLayout<Vertex>.stride)
    }
+}
+
+extension Array {
+   // Credit: adapted from https://stackoverflow.com/a/33802092/2201154
+    func asData() -> Data {
+        return self.withUnsafeBufferPointer({
+           Data(bytes: $0.baseAddress!, count: count * MemoryLayout<Element>.stride)
+        })
+    }
 }

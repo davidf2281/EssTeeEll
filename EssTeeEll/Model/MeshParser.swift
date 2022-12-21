@@ -91,7 +91,7 @@ class MeshParser: MeshParsing, ObservableObject {
          return (nil, nil)
       }
       
-      var facets: [Facet] = []
+      var facets: [Solid.Facet] = []
       var minX = Float.greatestFiniteMagnitude
       var minY = Float.greatestFiniteMagnitude
       var minZ = Float.greatestFiniteMagnitude
@@ -142,11 +142,11 @@ class MeshParser: MeshParsing, ObservableObject {
          // Skip over unused attribute byte count
          indexPointer += 2
                   
-         let normal = Normal(i: i, j: j, k: k)
-         let v1 = Vertex(x: v1x, y: v1y, z: v1z)
-         let v2 = Vertex(x: v2x, y: v2y, z: v2z)
-         let v3 = Vertex(x: v3x, y: v3y, z: v3z)
-         let facet = Facet(normal: normal, outerLoop: [v1, v2, v3])
+         let normal = Solid.Normal(i: i, j: j, k: k)
+         let v1 = Solid.Vertex(x: v1x, y: v1y, z: v1z)
+         let v2 = Solid.Vertex(x: v2x, y: v2y, z: v2z)
+         let v3 = Solid.Vertex(x: v3x, y: v3y, z: v3z)
+         let facet = Solid.Facet(normal: normal, outerLoop: [v1, v2, v3])
          facets.append(facet)
          
          if v1x < minX { minX = v1x }

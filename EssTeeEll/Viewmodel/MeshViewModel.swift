@@ -8,6 +8,7 @@
 import Foundation
 import UniformTypeIdentifiers
 import Combine
+import SceneKit
 
 class MeshViewModel: ObservableObject {
    
@@ -17,6 +18,7 @@ class MeshViewModel: ObservableObject {
    private var model: MeshParsing // TODO: make private and add separate mesh to viewmodel
    public private(set) var solid: Solid?
    public private(set) var solidExtents: SolidExtents?
+   public private(set) var scnGeometry: SCNGeometry?
    private var cancellables = Set<AnyCancellable>()
    
    required init(model: MeshParsing) {
@@ -29,6 +31,15 @@ class MeshViewModel: ObservableObject {
          .sink { (state) in
             self.solid = model.solid
             self.solidExtents = model.solidExtents
+            
+            if case .parsed = state, let solid = self.solid {
+               let geometrySource = GeometrySourceFactory.scnGeometrySource(from: solid)
+               let geometryElement = GeometryElementFactory.scnGeometryElement(from: solid)
+               let geometry = SCNGeometry(sources: [geometrySource], elements: [geometryElement])
+               geometry.name = "Testing"
+               self.scnGeometry = geometry
+            }
+            
             self.parsingState = state
          }.store(in: &cancellables)
    }

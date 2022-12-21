@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SceneKit
 
 struct ContentView: View {
    
@@ -22,17 +23,17 @@ struct ContentView: View {
    }
    
    var body: some View {
-               
-         switch viewModel.parsingState {
-            case .initial:
-               initialView()
-            case .parsing:
-               parsingView()
-            case .parsed:
-               parsedView()
-            case .error:
-               errorView()
-         }
+      
+      switch viewModel.parsingState {
+         case .initial:
+            initialView()
+         case .parsing:
+            parsingView()
+         case .parsed:
+            parsedView()
+         case .error:
+            errorView()
+      }
    }
 }
 
@@ -50,7 +51,7 @@ extension ContentView {
    }
    
    private func parsedView() -> some View {
-      NaiveMeshView(viewModel: viewModel)
+      SceneKitMeshView(viewModel: viewModel)
          .frame(maxWidth: .infinity, maxHeight: .infinity)
    }
    
@@ -99,7 +100,39 @@ struct NaiveMeshView: View {
 }
 
 struct SceneKitMeshView: View {
+   
+   private var viewModel: MeshViewModel
+   
+   let scene: SCNScene // Our geometry-added scene
+
+   init(viewModel: MeshViewModel) {
+      self.viewModel = viewModel
+      let scene = SCNScene()
+      scene.background.contents = SCNMaterialProperty(contents: Color.black)
+      let geometryNode = SCNNode(geometry: viewModel.scnGeometry)
+      let material = SCNMaterial()
+      let materialProperty = SCNMaterialProperty(contents: Color.green)
+      material.diffuse.contents = materialProperty
+      scene.rootNode.addChildNode(geometryNode)
+      self.scene = scene
+   }
+      
+   var cameraNode: SCNNode? {
+      let cameraNode = SCNNode()
+      cameraNode.camera = SCNCamera()
+      cameraNode.position = SCNVector3(x: 0, y: 0, z: 20)
+      return cameraNode
+   }
+   
    var body: some View {
-      Text("Implement me")
+      SceneView(
+         scene: self.scene,
+         pointOfView: self.cameraNode,
+         options: [
+            .allowsCameraControl,
+            .autoenablesDefaultLighting,
+            .temporalAntialiasingEnabled
+         ]
+      )
    }
 }
