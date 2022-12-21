@@ -14,7 +14,7 @@ struct EssTeeEllApp: App {
    
     var body: some Scene {
         WindowGroup {
-            MeshView(viewModel: viewModel)
+            ContentView(viewModel: viewModel)
         }
     }
 }

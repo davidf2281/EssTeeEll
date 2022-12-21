@@ -32,7 +32,6 @@ protocol MeshParsing {
    var solid: Solid? { get }
    var solidExtents: SolidExtents? { get }
    var statePublisher: Published<MeshParsingState>.Publisher { get }
-   var meshPublisher: Published<Solid?>.Publisher { get }
    
    func start()
 }

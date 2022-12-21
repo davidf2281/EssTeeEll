@@ -12,10 +12,11 @@ import Combine
 class MeshViewModel: ObservableObject {
    
    @Published private(set) var validPathDropped = false
-   @Published private(set) var meshParsingState: MeshParsingState = .initial
+   @Published private(set) var parsingState: MeshParsingState = .initial
 
-   var model: MeshParsing // TODO: make private and add separate mesh to viewmodel
-   private var mesh: Solid?
+   private var model: MeshParsing // TODO: make private and add separate mesh to viewmodel
+   public private(set) var solid: Solid?
+   public private(set) var solidExtents: SolidExtents?
    private var cancellables = Set<AnyCancellable>()
    
    required init(model: MeshParsing) {
@@ -26,14 +27,9 @@ class MeshViewModel: ObservableObject {
       model.statePublisher
          .receive(on: DispatchQueue.main)
          .sink { (state) in
-            self.meshParsingState = state
-         }.store(in: &cancellables)
-      
-      // Bind model's mesh
-      model.meshPublisher
-         .receive(on: DispatchQueue.main)
-         .sink{ (mesh) in
-            self.mesh = mesh
+            self.solid = model.solid
+            self.solidExtents = model.solidExtents
+            self.parsingState = state
          }.store(in: &cancellables)
    }
 }

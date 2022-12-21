@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MeshView: View {
+struct ContentView: View {
    
    private enum ViewState {
       case initial
@@ -23,7 +23,7 @@ struct MeshView: View {
    
    var body: some View {
                
-         switch viewModel.meshParsingState {
+         switch viewModel.parsingState {
             case .initial:
                initialView()
             case .parsing:
@@ -36,7 +36,7 @@ struct MeshView: View {
    }
 }
 
-extension MeshView {
+extension ContentView {
    
    private func initialView() -> some View {
       Text("Drop an STL file here to start")
@@ -50,7 +50,7 @@ extension MeshView {
    }
    
    private func parsedView() -> some View {
-      MeshTestView(viewModel: viewModel)
+      NaiveMeshView(viewModel: viewModel)
          .frame(maxWidth: .infinity, maxHeight: .infinity)
    }
    
@@ -60,7 +60,7 @@ extension MeshView {
    }
 }
 
-extension MeshView: DropDelegate {
+extension ContentView: DropDelegate {
    
    func performDrop(info: DropInfo) -> Bool {
       
@@ -74,8 +74,9 @@ extension MeshView: DropDelegate {
    }
 }
 
-struct MeshTestView: View {
-   @ObservedObject public private(set) var viewModel: MeshViewModel
+struct NaiveMeshView: View {
+   
+   private var viewModel: MeshViewModel
    
    init(viewModel: MeshViewModel) {
       self.viewModel = viewModel
@@ -87,12 +88,18 @@ struct MeshTestView: View {
          let widthByTwo = Float(reader.size.width / 2)
          let heightByTwo = Float(reader.size.height / 2)
          Path() { path in
-            for facet in viewModel.model.solid!.facets { // TODO: remove force-unwrap
+            for facet in viewModel.solid!.facets { // TODO: remove force-unwrap
                path.move(to: CGPoint(x: Double(facet.outerLoop[0].x * scaleFactor + widthByTwo), y: Double(facet.outerLoop[0].y * scaleFactor + heightByTwo)))
                path.addLine(to: CGPoint(x: Double(facet.outerLoop[1].x * scaleFactor + widthByTwo), y: Double(facet.outerLoop[1].y * scaleFactor + heightByTwo)))
                path.addLine(to: CGPoint(x: Double(facet.outerLoop[2].x * scaleFactor + widthByTwo), y: Double(facet.outerLoop[2].y * scaleFactor + heightByTwo)))
             }
          }.stroke(Color.black, lineWidth: 1)
       }
+   }
+}
+
+struct SceneKitMeshView: View {
+   var body: some View {
+      Text("Implement me")
    }
 }

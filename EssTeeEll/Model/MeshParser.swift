@@ -11,10 +11,9 @@ class MeshParser: MeshParsing, ObservableObject {
    
    var fileURL: URL?
    @Published public private(set) var state: MeshParsingState = .initial
-   @Published public private(set) var solid: Solid? = nil // TODO: We probably don't need this to be published and can just use the state changes to drive everything
+   public private(set) var solid: Solid? = nil
    var solidExtents: SolidExtents?
    var statePublisher: Published<MeshParsingState>.Publisher { $state }
-   var meshPublisher: Published<Solid?>.Publisher { $solid }
    
    func start() {
             
