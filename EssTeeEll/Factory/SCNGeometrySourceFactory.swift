@@ -8,7 +8,11 @@
 import Foundation
 import SceneKit
 
-class GeometrySourceFactory {
+protocol SCNGeometrySourceFactoryContract {
+   static func scnGeometrySource(from solid: Solid)  -> SCNGeometrySource
+}
+
+class SCNGeometrySourceFactory: SCNGeometrySourceFactoryContract {
    
    // Scenekit-friendly vertex type
    private struct Vertex {

@@ -29,7 +29,7 @@ class MeshParser: MeshParsing, ObservableObject {
       self.state = .parsing
       
       let fileType = fileType(fileURL)
-      let result: (solid: Solid?, solidExtents: SolidExtents?)
+      let result: (solid: Solid?, extents: SolidExtents?)
       switch fileType {
      
          case .binary:
@@ -42,17 +42,17 @@ class MeshParser: MeshParsing, ObservableObject {
             result = (nil, nil)
       }
       
-      guard let solid = result.solid, let solidExtents = result.solidExtents else {
+      guard let solid = result.solid, let extents = result.extents else {
          self.state = .error(.failedParsing(fileType))
          return
       }
       
-      self.solidExtents = solidExtents
+      self.solidExtents = extents
       self.solid = solid
       self.state = .parsed
    }
    
-   // Determines whether the file is in binary or ASCII STL format.
+   // Determines whether the given file is in binary or ASCII STL format.
    // If the first five bytes spell 'solid' we assume it's ASCII, otherwise assume it's binary
    private func fileType(_ fileURL: URL) -> MeshParsingState.FileType {
       guard let url = self.fileURL else {
@@ -67,7 +67,7 @@ class MeshParser: MeshParsing, ObservableObject {
       
       do {
          try cFile.open()
-         if let line = try cFile.readLine(), line.count > 4 {
+         if let line = try cFile.readLine(maxLength: 5), line.count > 4 {
             let characters = line[0...4].map { UInt8($0) }
             let string = String(bytes: characters, encoding: .utf8)
             return string == "solid" ? .ascii : .binary
@@ -78,7 +78,7 @@ class MeshParser: MeshParsing, ObservableObject {
       }
    }
    
-   private func parseBinary(_ fileURL: URL) -> (solid: Solid?, solidExtents: SolidExtents?) {
+   private func parseBinary(_ fileURL: URL) -> (solid: Solid?, extents: SolidExtents?) {
       
       let startTime = Date()
       
@@ -159,23 +159,23 @@ class MeshParser: MeshParsing, ObservableObject {
          if v1x < minX { minX = v1x }
          if v2x < minX { minX = v2x }
          if v3x < minX { minX = v3x }
-         
+
          if v1y < minY { minY = v1y }
          if v2y < minY { minY = v2y }
          if v3y < minY { minY = v3y }
-         
+
          if v1z < minZ { minZ = v1z }
          if v2z < minZ { minZ = v2z }
          if v3z < minZ { minZ = v3z }
-         
+
          if v1x > maxX { maxX = v1x }
          if v2x > maxX { maxX = v2x }
          if v3x > maxX { maxX = v3x }
-         
+
          if v1y > maxY { maxY = v1y }
          if v2y > maxY { maxY = v2y }
          if v3y > maxY { maxY = v3y }
-         
+
          if v1z > maxZ { maxZ = v1z }
          if v2z > maxZ { maxZ = v2z }
          if v3z > maxZ { maxZ = v3z }
@@ -188,30 +188,28 @@ class MeshParser: MeshParsing, ObservableObject {
       }
       
       let solid = Solid(name: fileURL.lastPathComponent, facets: facets)
-      let solidExtents = SolidExtents(minX: minX, minY: minY, minZ: minZ, maxX: maxX, maxY: maxY, maxZ: maxZ)
+      let extents = SolidExtents(minX: minX, minY: minY, minZ: minZ, maxX: maxX, maxY: maxY, maxZ: maxZ)
       let elapsed = startTime.timeIntervalSinceNow
       
       print("parsed in \(String(format: "%.2f", -elapsed)) seconds")
       
-      return (solid, solidExtents)
+      return (solid, extents)
    }
    
-   private func parseASCII(_ fileURL: URL) -> (solid: Solid?, solidExtents: SolidExtents?) {
+   private func parseASCII(_ fileURL: URL) -> (solid: Solid?, extents: SolidExtents?) {
       return (nil, nil) // TODO:
    }
    
    private func uInt32FromData(_ data: Data, startIndex: Int) -> UInt32 {
       let bytes = data[startIndex...(startIndex + 3)]
-      let array = [UInt8](bytes)
-      let uInt = UInt32(littleEndian: array.withUnsafeBytes{ $0.load(as: UInt32.self) })
-      return uInt
+      let uInt32: UInt32 = bytes.withUnsafeBytes{ $0.load(as: UInt32.self)}
+      return uInt32
    }
    
    private func floatFromData(_ data: Data, startIndex: Int) -> Float {
       let bytes = data[startIndex...(startIndex + 3)]
       let array = [UInt8](bytes)
-      let uInt = UInt32(littleEndian: array.withUnsafeBytes{ $0.load(as: UInt32.self) })
-      let float = Float(bitPattern: uInt)
+      let float: Float = array.withUnsafeBytes{ $0.load(as: Float.self)}
       return float
    }
 }

@@ -12,8 +12,8 @@
 		8C91D2972951F32A00271982 /* MeshViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D2962951F32A00271982 /* MeshViewModel.swift */; };
 		8C91D2992951F4D700271982 /* MeshParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D2982951F4D700271982 /* MeshParsing.swift */; };
 		8C91D29C2951FED700271982 /* MeshParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D29B2951FED700271982 /* MeshParser.swift */; };
-		8C91D29E2953532D00271982 /* GeometrySourceFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D29D2953532D00271982 /* GeometrySourceFactory.swift */; };
-		8C91D2A0295364BC00271982 /* GeometryElementFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D29F295364BC00271982 /* GeometryElementFactory.swift */; };
+		8C91D29E2953532D00271982 /* SCNGeometrySourceFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D29D2953532D00271982 /* SCNGeometrySourceFactory.swift */; };
+		8C91D2A0295364BC00271982 /* SCNGeometryElementFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D29F295364BC00271982 /* SCNGeometryElementFactory.swift */; };
 		8CCCE6822950C7E60008D4F2 /* EssTeeEllApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCCE6812950C7E60008D4F2 /* EssTeeEllApp.swift */; };
 		8CCCE6862950C7E80008D4F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8CCCE6852950C7E80008D4F2 /* Assets.xcassets */; };
 		8CCCE68A2950C7E80008D4F2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8CCCE6892950C7E80008D4F2 /* Preview Assets.xcassets */; };
@@ -48,8 +48,8 @@
 		8C91D2962951F32A00271982 /* MeshViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshViewModel.swift; sourceTree = "<group>"; };
 		8C91D2982951F4D700271982 /* MeshParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshParsing.swift; sourceTree = "<group>"; };
 		8C91D29B2951FED700271982 /* MeshParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshParser.swift; sourceTree = "<group>"; };
-		8C91D29D2953532D00271982 /* GeometrySourceFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometrySourceFactory.swift; sourceTree = "<group>"; };
-		8C91D29F295364BC00271982 /* GeometryElementFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryElementFactory.swift; sourceTree = "<group>"; };
+		8C91D29D2953532D00271982 /* SCNGeometrySourceFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNGeometrySourceFactory.swift; sourceTree = "<group>"; };
+		8C91D29F295364BC00271982 /* SCNGeometryElementFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNGeometryElementFactory.swift; sourceTree = "<group>"; };
 		8CCCE67E2950C7E60008D4F2 /* EssTeeEll.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EssTeeEll.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CCCE6812950C7E60008D4F2 /* EssTeeEllApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EssTeeEllApp.swift; sourceTree = "<group>"; };
 		8CCCE6852950C7E80008D4F2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -90,6 +90,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8C4B8CF22953927A0094AC16 /* Factory */ = {
+			isa = PBXGroup;
+			children = (
+				8C91D29D2953532D00271982 /* SCNGeometrySourceFactory.swift */,
+				8C91D29F295364BC00271982 /* SCNGeometryElementFactory.swift */,
+			);
+			path = Factory;
+			sourceTree = "<group>";
+		};
 		8C91D2922951F2D700271982 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -129,10 +138,11 @@
 		8CCCE6802950C7E60008D4F2 /* EssTeeEll */ = {
 			isa = PBXGroup;
 			children = (
+				8CCCE6812950C7E60008D4F2 /* EssTeeEllApp.swift */,
+				8C4B8CF22953927A0094AC16 /* Factory */,
 				8C91D2952951F31C00271982 /* Viewmodel */,
 				8C91D2922951F2D700271982 /* View */,
 				8CCCE6AC2950C8190008D4F2 /* Model */,
-				8CCCE6812950C7E60008D4F2 /* EssTeeEllApp.swift */,
 				8CCCE6852950C7E80008D4F2 /* Assets.xcassets */,
 				8CCCE6872950C7E80008D4F2 /* EssTeeEll.entitlements */,
 				8CCCE6882950C7E80008D4F2 /* Preview Content */,
@@ -174,8 +184,6 @@
 				8C91D29B2951FED700271982 /* MeshParser.swift */,
 				8C91D2982951F4D700271982 /* MeshParsing.swift */,
 				8CCCE6AD2950C8470008D4F2 /* Solid.swift */,
-				8C91D29D2953532D00271982 /* GeometrySourceFactory.swift */,
-				8C91D29F295364BC00271982 /* GeometryElementFactory.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -314,12 +322,12 @@
 				8C91D2992951F4D700271982 /* MeshParsing.swift in Sources */,
 				8CCCE6B02950D0C80008D4F2 /* CFile.swift in Sources */,
 				8C91D2972951F32A00271982 /* MeshViewModel.swift in Sources */,
-				8C91D2A0295364BC00271982 /* GeometryElementFactory.swift in Sources */,
+				8C91D2A0295364BC00271982 /* SCNGeometryElementFactory.swift in Sources */,
 				8C91D29C2951FED700271982 /* MeshParser.swift in Sources */,
 				8CCCE6822950C7E60008D4F2 /* EssTeeEllApp.swift in Sources */,
 				8CCCE6B22950D0F90008D4F2 /* ByteReading.swift in Sources */,
 				8C91D2912951F03F00271982 /* FilingSystemItem.swift in Sources */,
-				8C91D29E2953532D00271982 /* GeometrySourceFactory.swift in Sources */,
+				8C91D29E2953532D00271982 /* SCNGeometrySourceFactory.swift in Sources */,
 				8CCCE6AE2950C8470008D4F2 /* Solid.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -537,6 +545,7 @@
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

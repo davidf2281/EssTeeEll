@@ -45,8 +45,7 @@ class CFile: FilingSystemItem, ByteReading {
         }
     }
 
-    // TODO: Performance optimization: take pre-allocated buffer as a parameter and return length of read line so caller doesn't subsequently need to scan the whole buffer
-    func readLine(maxLength: Int = 5) throws -> FileBytes? { // TODO: Make maxLength configurable
+    func readLine(maxLength: Int = 1024) throws -> FileBytes? {
 
         guard let file = self.file else {
             throw NSError(domain: NSPOSIXErrorDomain, code: Int(EBADF), userInfo: nil)

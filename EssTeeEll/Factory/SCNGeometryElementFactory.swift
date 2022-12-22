@@ -8,7 +8,11 @@
 import Foundation
 import SceneKit
 
-class GeometryElementFactory {
+protocol SCNGeometryElementFactoryContract {
+   static func scnGeometryElement(from solid: Solid) -> SCNGeometryElement
+}
+
+class SCNGeometryElementFactory: SCNGeometryElementFactoryContract {
    static func scnGeometryElement(from solid: Solid) -> SCNGeometryElement {
       var indices: [UInt32] = []
       indices.reserveCapacity(solid.facets.count * 3) 
@@ -19,8 +23,6 @@ class GeometryElementFactory {
          indices.append(currentIndex)
          indices.append(currentIndex + 1)
          indices.append(currentIndex + 2)
-//         indices.append(currentIndex)
-         
          currentIndex += 3
       }
       

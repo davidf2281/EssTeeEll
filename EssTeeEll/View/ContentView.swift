@@ -103,15 +103,13 @@ struct NaiveMeshView: View {
 }
 
 struct SceneKitMeshView: View {
-   
-   private var viewModel: MeshViewModel
-   
-   let scene: SCNScene // Our geometry-added scene
-
+      
+   let scene: SCNScene
+   let backgroundNSColor = NSColor.black
+   let backgroundColor = Color.black
    init(viewModel: MeshViewModel) {
-      self.viewModel = viewModel
       let scene = SCNScene()
-      scene.background.contents = SCNMaterialProperty(contents: Color.black)
+      scene.background.contents = backgroundNSColor
       let geometryNode = SCNNode(geometry: viewModel.scnGeometry)
       scene.rootNode.addChildNode(geometryNode)
       self.scene = scene
@@ -120,9 +118,10 @@ struct SceneKitMeshView: View {
    var cameraNode: SCNNode? {
       let cameraNode = SCNNode()
       let camera = SCNCamera()
+      camera.automaticallyAdjustsZRange = true
       camera.fieldOfView = 30
       cameraNode.camera = camera
-      cameraNode.position = SCNVector3(x: 0, y: 0, z: 20)
+      cameraNode.position = SCNVector3(x: 0, y: 0, z: 100)
       
       return cameraNode
    }
@@ -136,6 +135,6 @@ struct SceneKitMeshView: View {
             .autoenablesDefaultLighting,
             .temporalAntialiasingEnabled
          ]
-      )
+      ).background(backgroundColor)
    }
 }

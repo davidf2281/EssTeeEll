@@ -9,7 +9,6 @@ import Foundation
 import UniformTypeIdentifiers
 import Combine
 import SceneKit
-import SwiftUI
 
 class MeshViewModel: ObservableObject {
    
@@ -26,7 +25,6 @@ class MeshViewModel: ObservableObject {
       
       self.model = model
       
-      // Bind model's state
       model.statePublisher
          .receive(on: DispatchQueue.main)
          .sink { (state) in
@@ -34,13 +32,13 @@ class MeshViewModel: ObservableObject {
             self.solidExtents = model.solidExtents
             
             if case .parsed = state, let solid = self.solid {
-               let geometrySource = GeometrySourceFactory.scnGeometrySource(from: solid)
-               let geometryElement = GeometryElementFactory.scnGeometryElement(from: solid)
+               let geometrySource = SCNGeometrySourceFactory.scnGeometrySource(from: solid)
+               let geometryElement = SCNGeometryElementFactory.scnGeometryElement(from: solid)
                let geometry = SCNGeometry(sources: [geometrySource], elements: [geometryElement])
                
                let material = SCNMaterial()
-               let materialProperty = SCNMaterialProperty(contents: Color.green)
-               material.diffuse.contents = materialProperty
+               material.locksAmbientWithDiffuse = true
+               material.diffuse.contents = NSColor.green
                geometry.materials = [material]
                
                self.scnGeometry = geometry
