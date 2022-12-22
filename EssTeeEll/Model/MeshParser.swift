@@ -83,18 +83,38 @@ class MeshParser: MeshParsing, ObservableObject {
       let startTime = Date()
       
       let headerLength = 80
-      let facetStartIndex = 84
       let facetCount: UInt32
-      let data: Data
-      
-      do {
-         data = try Data(contentsOf: fileURL)
-         facetCount = uInt32FromData(data, startIndex: headerLength)
-         print("There are \(facetCount) facets")
-      } catch {
+
+      guard let inputStream = InputStream(url: fileURL) else {
          return (nil, nil)
       }
-
+      
+      inputStream.open()
+      
+      defer {
+         inputStream.close()
+      }
+      
+      // Throw away the 80-byte header
+      let headerBuffer = UnsafeMutablePointer<UInt8>.allocate(capacity: headerLength)
+      let headerBytesRead = inputStream.read(headerBuffer, maxLength: headerLength)
+      headerBuffer.deallocate()
+      guard headerBytesRead == 80 else {
+         return (nil, nil)
+      }
+      
+      let facetCountBuffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 4)
+      let facetCountBytesRead = inputStream.read(facetCountBuffer, maxLength: 4)
+      guard facetCountBytesRead == 4 else {
+         return (nil, nil)
+      }
+      
+      let facetCountBoundBuffer = UnsafeMutableRawPointer(facetCountBuffer).bindMemory(to: UInt32.self, capacity: 1)
+      facetCount = facetCountBoundBuffer.pointee
+      facetCountBoundBuffer.deallocate()
+      
+      print("There are \(facetCount) facets")
+                  
       var parsingProgressCount = 0
       let parsingProgressUpdateThreshold = 1000
       
@@ -106,49 +126,32 @@ class MeshParser: MeshParsing, ObservableObject {
       var maxZ = -Float.greatestFiniteMagnitude
 
       var facets: [Solid.Facet] = []
-      var indexPointer = facetStartIndex
+      
+      let facetBuffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 50)
       
       for index in 1...facetCount {
+         
+         let facetBufferBytesRead = inputStream.read(facetBuffer, maxLength: 50)
+         guard facetBufferBytesRead == 50 else {
+            return (nil, nil)
+         }
+         
+         let i = floatFromUnsafePointer(pointer: facetBuffer, byteOffset: 0)
+         let j = floatFromUnsafePointer(pointer: facetBuffer, byteOffset: 4)
+         let k = floatFromUnsafePointer(pointer: facetBuffer, byteOffset: 8)
+         
+         let v1x = floatFromUnsafePointer(pointer: facetBuffer, byteOffset: 12)
+         let v1y = floatFromUnsafePointer(pointer: facetBuffer, byteOffset: 16)
+         let v1z = floatFromUnsafePointer(pointer: facetBuffer, byteOffset: 20)
+         
+         let v2x = floatFromUnsafePointer(pointer: facetBuffer, byteOffset: 24)
+         let v2y = floatFromUnsafePointer(pointer: facetBuffer, byteOffset: 28)
+         let v2z = floatFromUnsafePointer(pointer: facetBuffer, byteOffset: 32)
+         
+         let v3x = floatFromUnsafePointer(pointer: facetBuffer, byteOffset: 36)
+         let v3y = floatFromUnsafePointer(pointer: facetBuffer, byteOffset: 40)
+         let v3z = floatFromUnsafePointer(pointer: facetBuffer, byteOffset: 44)
 
-         let i = floatFromData(data, startIndex: indexPointer)
-         indexPointer += 4
-         
-         let j = floatFromData(data, startIndex: indexPointer)
-         indexPointer += 4
-         
-         let k = floatFromData(data, startIndex: indexPointer)
-         indexPointer += 4
-         
-         let v1x = floatFromData(data, startIndex: indexPointer)
-         indexPointer += 4
-         
-         let v1y = floatFromData(data, startIndex: indexPointer)
-         indexPointer += 4
-         
-         let v1z = floatFromData(data, startIndex: indexPointer)
-         indexPointer += 4
-         
-         let v2x = floatFromData(data, startIndex: indexPointer)
-         indexPointer += 4
-         
-         let v2y = floatFromData(data, startIndex: indexPointer)
-         indexPointer += 4
-         
-         let v2z = floatFromData(data, startIndex: indexPointer)
-         indexPointer += 4
-         
-         let v3x = floatFromData(data, startIndex: indexPointer)
-         indexPointer += 4
-         
-         let v3y = floatFromData(data, startIndex: indexPointer)
-         indexPointer += 4
-         
-         let v3z = floatFromData(data, startIndex: indexPointer)
-         indexPointer += 4
-
-         // Skip over unused attribute byte count
-         indexPointer += 2
-                  
          let normal = Solid.Normal(i: i, j: j, k: k)
          let v1 = Solid.Vertex(x: v1x, y: v1y, z: v1z)
          let v2 = Solid.Vertex(x: v2x, y: v2y, z: v2z)
@@ -187,11 +190,12 @@ class MeshParser: MeshParsing, ObservableObject {
          }
       }
       
+      facetBuffer.deallocate()
       let solid = Solid(name: fileURL.lastPathComponent, facets: facets)
       let extents = SolidExtents(minX: minX, minY: minY, minZ: minZ, maxX: maxX, maxY: maxY, maxZ: maxZ)
       let elapsed = startTime.timeIntervalSinceNow
       
-      print("parsed in \(String(format: "%.2f", -elapsed)) seconds")
+      print("Parsed in \(String(format: "%.2f", -elapsed)) seconds")
       
       return (solid, extents)
    }
@@ -200,16 +204,15 @@ class MeshParser: MeshParsing, ObservableObject {
       return (nil, nil) // TODO:
    }
    
-   private func uInt32FromData(_ data: Data, startIndex: Int) -> UInt32 {
-      let bytes = data[startIndex...(startIndex + 3)]
-      let uInt32: UInt32 = bytes.withUnsafeBytes{ $0.load(as: UInt32.self)}
-      return uInt32
-   }
-   
-   private func floatFromData(_ data: Data, startIndex: Int) -> Float {
-      let bytes = data[startIndex...(startIndex + 3)]
-      let array = [UInt8](bytes)
-      let float: Float = array.withUnsafeBytes{ $0.load(as: Float.self)}
+   private func floatFromUnsafePointer(pointer: UnsafeMutablePointer<UInt8>, byteOffset: Int) -> Float {
+      let boundBuffer = UnsafeMutableRawPointer(pointer + byteOffset).bindMemory(to: Float32.self, capacity: 1)
+      let float = Float(boundBuffer.pointee)
       return float
    }
+   
+//   private func floatsFromUnsafePointer(pointer: UnsafeMutablePointer<UInt8>, capacity: Int) -> [Float] {
+//      let boundBuffer = UnsafeMutableRawPointer(pointer).bindMemory(to: Float32.self, capacity: capacity)
+//      let float: [Float] = Float(boundBuffer.pointee)
+//      return float
+//   }
 }
