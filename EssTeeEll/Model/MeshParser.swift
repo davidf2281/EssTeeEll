@@ -83,7 +83,7 @@ class MeshParser: MeshParsing, ObservableObject {
       let startTime = Date()
       
       let headerLength = 80
-      let facetsLoopByteCount = 50 // 48 bytes + 2 'attribute byte count' bytes we ignore from the facet data
+      let bytesPerFacet = 50 // 48 bytes + 2 'attribute byte count' bytes we ignore from the facet data
       let facetCount: UInt32
 
       guard let inputStream = InputStream(url: fileURL) else {
@@ -91,15 +91,12 @@ class MeshParser: MeshParsing, ObservableObject {
       }
       
       inputStream.open()
-      
-      defer {
-         inputStream.close()
-      }
+      defer { inputStream.close() }
       
       // Throw away the 80-byte header
       let headerBuffer = UnsafeMutablePointer<UInt8>.allocate(capacity: headerLength)
+      defer { headerBuffer.deallocate() }
       let headerBytesRead = inputStream.read(headerBuffer, maxLength: headerLength)
-      headerBuffer.deallocate()
       guard headerBytesRead == 80 else {
          return (nil, nil)
       }
@@ -111,13 +108,19 @@ class MeshParser: MeshParsing, ObservableObject {
       }
       
       let facetCountBoundBuffer = UnsafeMutableRawPointer(facetCountBuffer).bindMemory(to: UInt32.self, capacity: 1)
+      defer { facetCountBoundBuffer.deallocate() }
       facetCount = facetCountBoundBuffer.pointee
-      facetCountBoundBuffer.deallocate()
-      
       print("There are \(facetCount) facets")
+      let totalFacetsByteCount = bytesPerFacet * Int(facetCount)
+      let facetDataBuffer = UnsafeMutablePointer<UInt8>.allocate(capacity: totalFacetsByteCount)
+      defer { facetDataBuffer.deallocate() }
+      let facetBufferBytesRead = inputStream.read(facetDataBuffer, maxLength: totalFacetsByteCount)
+      guard facetBufferBytesRead == totalFacetsByteCount else {
+         return (nil, nil)
+      }
                   
       var parsingProgressCount = 0
-      let parsingProgressUpdateThreshold = 1000
+      let parsingProgressUpdateThreshold = facetCount / 100
       
       var minX = Float.greatestFiniteMagnitude
       var minY = Float.greatestFiniteMagnitude
@@ -125,19 +128,13 @@ class MeshParser: MeshParsing, ObservableObject {
       var maxX = -Float.greatestFiniteMagnitude
       var maxY = -Float.greatestFiniteMagnitude
       var maxZ = -Float.greatestFiniteMagnitude
-
-      var facets: [Solid.Facet] = []
       
-      let facetBuffer = UnsafeMutablePointer<UInt8>.allocate(capacity: facetsLoopByteCount)
+      var facets: [Solid.Facet] = []
+      facets.reserveCapacity(Int(facetCount))
       
       for index in 1...facetCount {
          
-         let facetBufferBytesRead = inputStream.read(facetBuffer, maxLength: facetsLoopByteCount)
-         guard facetBufferBytesRead == 50 else {
-            return (nil, nil)
-         }
-         
-         let boundFloatsBuffer = UnsafeMutableRawPointer(facetBuffer).bindMemory(to: Float32.self, capacity: 12)
+         let boundFloatsBuffer = UnsafeMutableRawPointer(facetDataBuffer + Int(index) * bytesPerFacet).bindMemory(to: Float32.self, capacity: 12)
          
          let i = (boundFloatsBuffer + 0).pointee
          let j = (boundFloatsBuffer + 1).pointee
@@ -193,7 +190,6 @@ class MeshParser: MeshParsing, ObservableObject {
          }
       }
       
-      facetBuffer.deallocate()
       let solid = Solid(name: fileURL.lastPathComponent, facets: facets)
       let extents = SolidExtents(minX: minX, minY: minY, minZ: minZ, maxX: maxX, maxY: maxY, maxZ: maxZ)
       let elapsed = startTime.timeIntervalSinceNow
