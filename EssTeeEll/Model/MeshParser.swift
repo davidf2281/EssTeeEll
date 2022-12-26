@@ -83,7 +83,7 @@ class MeshParser: MeshParsing, ObservableObject {
       let startTime = Date()
       
       let headerLength = 80
-      let bytesPerFacet = 50 // 48 bytes + 2 'attribute byte count' bytes we ignore from the facet data
+      let bytesPerFacet = 50 // 12 four-byte floats, plus two 'attribute byte count' bytes we ignore from the facet data
       let facetCount: UInt32
 
       guard let inputStream = InputStream(url: fileURL) else {
@@ -129,12 +129,69 @@ class MeshParser: MeshParsing, ObservableObject {
       var maxY = -Float.greatestFiniteMagnitude
       var maxZ = -Float.greatestFiniteMagnitude
       
-      var facets: [Solid.Facet] = []
-      facets.reserveCapacity(Int(facetCount))
+      let queue = OperationQueue()
+      let threadCount: Int
       
-      for index in 1...facetCount {
+      let coreCount = ProcessInfo.processInfo.activeProcessorCount
+      
+      // Account for the edge case where number of available cores exceeds number of facets
+      if facetCount < coreCount {
+         threadCount = Int(facetCount)
+      } else {
+         threadCount = coreCount
+      }
+      
+      queue.maxConcurrentOperationCount = threadCount
+      
+      let facetsPerThread = Int(facetCount) / threadCount
+      let facetRemainder = Int(facetCount) % threadCount
+      var facets: [Solid.Facet] = []
+      let lock = NSLock()
+      
+      for index in 0..<threadCount {
          
-         let boundFloatsBuffer = UnsafeMutableRawPointer(facetDataBuffer + Int(index) * bytesPerFacet).bindMemory(to: Float32.self, capacity: 12)
+         // If facet count is an odd number, the last operation needs to process the remainder
+         let facetsToProcess = (index == (0..<threadCount).last) ? facetsPerThread + facetRemainder : facetsPerThread
+         
+         let operation = BlockOperation(block: {
+            let opFacets = self.parseMeshWithFacetBuffer(facetDataBuffer, startOffset: facetsPerThread * index, facetCount: facetsToProcess)
+            lock.lock()
+            facets += opFacets
+            lock.unlock()
+          })
+         
+         queue.addOperation(operation)
+      }
+      
+      queue.waitUntilAllOperationsAreFinished()
+      
+      let solid = Solid(name: fileURL.lastPathComponent, facets: facets)
+      let extents = SolidExtents(minX: minX, minY: minY, minZ: minZ, maxX: maxX, maxY: maxY, maxZ: maxZ)
+      let elapsed = startTime.timeIntervalSinceNow
+      
+      print("Parsed in \(String(format: "%.2f", -elapsed)) seconds")
+      
+      return (solid, extents)
+   }
+   
+   private func parseASCII(_ fileURL: URL) -> (solid: Solid?, extents: SolidExtents?) {
+      return (nil, nil) // TODO:
+   }
+   
+   private func parseMeshWithFacetBuffer(_ facetDataBuffer: UnsafeMutablePointer<UInt8>, startOffset: Int, facetCount: Int) -> [Solid.Facet] {
+      var minX = Float.greatestFiniteMagnitude
+      var minY = Float.greatestFiniteMagnitude
+      var minZ = Float.greatestFiniteMagnitude
+      var maxX = -Float.greatestFiniteMagnitude
+      var maxY = -Float.greatestFiniteMagnitude
+      var maxZ = -Float.greatestFiniteMagnitude
+      
+      var facets: [Solid.Facet] = []
+      facets.reserveCapacity(facetCount)
+      
+      for index in 0..<facetCount {
+         
+         let boundFloatsBuffer = UnsafeMutableRawPointer(facetDataBuffer + (startOffset * 50) + Int(index) * 50).bindMemory(to: Float32.self, capacity: 12)
          
          let i = (boundFloatsBuffer + 0).pointee
          let j = (boundFloatsBuffer + 1).pointee
@@ -183,23 +240,13 @@ class MeshParser: MeshParsing, ObservableObject {
          if v2z > maxZ { maxZ = v2z }
          if v3z > maxZ { maxZ = v3z }
          
-         parsingProgressCount += 1
-         if parsingProgressCount > parsingProgressUpdateThreshold {
-            self.parsingProgress = Float(index) / Float(facetCount)
-            parsingProgressCount = 0
-         }
+//         parsingProgressCount += 1
+//         if parsingProgressCount > parsingProgressUpdateThreshold {
+//            self.parsingProgress = Float(index) / Float(facetCount)
+//            parsingProgressCount = 0
+//         }
       }
       
-      let solid = Solid(name: fileURL.lastPathComponent, facets: facets)
-      let extents = SolidExtents(minX: minX, minY: minY, minZ: minZ, maxX: maxX, maxY: maxY, maxZ: maxZ)
-      let elapsed = startTime.timeIntervalSinceNow
-      
-      print("Parsed in \(String(format: "%.2f", -elapsed)) seconds")
-      
-      return (solid, extents)
-   }
-   
-   private func parseASCII(_ fileURL: URL) -> (solid: Solid?, extents: SolidExtents?) {
-      return (nil, nil) // TODO:
+      return facets
    }
 }
