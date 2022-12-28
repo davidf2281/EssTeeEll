@@ -15,7 +15,7 @@ class MeshViewModel: ObservableObject {
    @Published private(set) var validPathDropped = false
    @Published private(set) var parsingState: MeshParsingState = .initial
    @Published private(set) var parsingProgress: Float = 0
-   private var model: MeshParsing // TODO: make private and add separate mesh to viewmodel
+   private var model: MeshParsing
    public private(set) var solid: Solid?
    public private(set) var solidExtents: SolidExtents?
    public private(set) var scnGeometry: SCNGeometry?
@@ -26,16 +26,13 @@ class MeshViewModel: ObservableObject {
       self.model = model
       
       model.statePublisher
-         .receive(on: DispatchQueue.main)
+         .receive(on:DispatchQueue.global(qos: .userInitiated))
          .sink { (state) in
             self.solid = model.solid
-            self.solidExtents = model.solidExtents
-            
             if case .parsed = state, let solid = self.solid {
                let geometrySource = SCNGeometrySourceFactory.scnGeometrySource(from: solid)
                let geometryElement = SCNGeometryElementFactory.scnGeometryElement(from: solid)
                let geometry = SCNGeometry(sources: [geometrySource], elements: [geometryElement])
-               
                let material = SCNMaterial()
                material.locksAmbientWithDiffuse = true
                material.diffuse.contents = NSColor.green
@@ -44,7 +41,9 @@ class MeshViewModel: ObservableObject {
                self.scnGeometry = geometry
             }
             
-            self.parsingState = state
+            DispatchQueue.main.async {
+               self.parsingState = state
+            }
          }.store(in: &cancellables)
       
       model.parsingProgressPublisher

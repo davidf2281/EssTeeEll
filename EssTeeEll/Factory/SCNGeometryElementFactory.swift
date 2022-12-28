@@ -14,6 +14,9 @@ protocol SCNGeometryElementFactoryContract {
 
 class SCNGeometryElementFactory: SCNGeometryElementFactoryContract {
    static func scnGeometryElement(from solid: Solid) -> SCNGeometryElement {
+      
+      let startTime = Date()
+
       var indices: [UInt32] = []
       indices.reserveCapacity(solid.facets.count * 3) 
       
@@ -27,6 +30,10 @@ class SCNGeometryElementFactory: SCNGeometryElementFactoryContract {
       }
       
       let geometryElement = SCNGeometryElement(indices: indices, primitiveType: .triangles)
+      
+      let elapsed = startTime.timeIntervalSinceNow
+      
+      print("Created SCNGeometryElement in  \(String(format: "%.2f", -elapsed)) seconds")
       
       return geometryElement
    }

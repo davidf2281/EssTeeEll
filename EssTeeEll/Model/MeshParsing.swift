@@ -29,7 +29,6 @@ enum MeshParsingState {
 protocol MeshParsing {
    var fileURL: URL? { get set }
    var solid: Solid? { get }
-   var solidExtents: SolidExtents? { get }
    var state: MeshParsingState { get }
    var statePublisher: Published<MeshParsingState>.Publisher { get }
    var parsingProgress: Float { get }

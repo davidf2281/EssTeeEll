@@ -14,6 +14,7 @@
 		8C91D29C2951FED700271982 /* MeshParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D29B2951FED700271982 /* MeshParser.swift */; };
 		8C91D29E2953532D00271982 /* SCNGeometrySourceFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D29D2953532D00271982 /* SCNGeometrySourceFactory.swift */; };
 		8C91D2A0295364BC00271982 /* SCNGeometryElementFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D29F295364BC00271982 /* SCNGeometryElementFactory.swift */; };
+		8C9BFACE2959DA8000B8F2C0 /* DumpingGround.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9BFACD2959DA8000B8F2C0 /* DumpingGround.swift */; };
 		8CCCE6822950C7E60008D4F2 /* EssTeeEllApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCCE6812950C7E60008D4F2 /* EssTeeEllApp.swift */; };
 		8CCCE6862950C7E80008D4F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8CCCE6852950C7E80008D4F2 /* Assets.xcassets */; };
 		8CCCE68A2950C7E80008D4F2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8CCCE6892950C7E80008D4F2 /* Preview Assets.xcassets */; };
@@ -50,6 +51,7 @@
 		8C91D29B2951FED700271982 /* MeshParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshParser.swift; sourceTree = "<group>"; };
 		8C91D29D2953532D00271982 /* SCNGeometrySourceFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNGeometrySourceFactory.swift; sourceTree = "<group>"; };
 		8C91D29F295364BC00271982 /* SCNGeometryElementFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNGeometryElementFactory.swift; sourceTree = "<group>"; };
+		8C9BFACD2959DA8000B8F2C0 /* DumpingGround.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DumpingGround.swift; sourceTree = "<group>"; };
 		8CCCE67E2950C7E60008D4F2 /* EssTeeEll.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EssTeeEll.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CCCE6812950C7E60008D4F2 /* EssTeeEllApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EssTeeEllApp.swift; sourceTree = "<group>"; };
 		8CCCE6852950C7E80008D4F2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 		8CCCE6802950C7E60008D4F2 /* EssTeeEll */ = {
 			isa = PBXGroup;
 			children = (
+				8C9BFACD2959DA8000B8F2C0 /* DumpingGround.swift */,
 				8CCCE6812950C7E60008D4F2 /* EssTeeEllApp.swift */,
 				8C4B8CF22953927A0094AC16 /* Factory */,
 				8C91D2952951F31C00271982 /* Viewmodel */,
@@ -327,6 +330,7 @@
 				8CCCE6822950C7E60008D4F2 /* EssTeeEllApp.swift in Sources */,
 				8CCCE6B22950D0F90008D4F2 /* ByteReading.swift in Sources */,
 				8C91D2912951F03F00271982 /* FilingSystemItem.swift in Sources */,
+				8C9BFACE2959DA8000B8F2C0 /* DumpingGround.swift in Sources */,
 				8C91D29E2953532D00271982 /* SCNGeometrySourceFactory.swift in Sources */,
 				8CCCE6AE2950C8470008D4F2 /* Solid.swift in Sources */,
 			);
