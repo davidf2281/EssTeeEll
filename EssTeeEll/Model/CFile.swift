@@ -28,7 +28,6 @@ class CFile: FilingSystemItem, ByteReading {
     }
 
     func open() throws {
-
         guard let file = fopen(url.path, "r") else {
             throw NSError(domain: NSPOSIXErrorDomain, code: Int(errno), userInfo: nil)
         }

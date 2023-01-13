@@ -35,7 +35,7 @@ class MeshViewModel: ObservableObject {
                let geometry = SCNGeometry(sources: [geometrySource], elements: [geometryElement])
                let material = SCNMaterial()
                material.locksAmbientWithDiffuse = true
-               material.diffuse.contents = NSColor.green
+               material.diffuse.contents = PlatformSpecific.color(.green)
                geometry.materials = [material]
                
                self.scnGeometry = geometry
@@ -51,6 +51,16 @@ class MeshViewModel: ObservableObject {
          .sink { (parsingProgress) in
             self.parsingProgress = parsingProgress
          }.store(in: &cancellables)
+      
+      // ****
+      // TODO: remove the following when done debugging
+      let fileURL = URL(fileURLWithPath: "/Users/davidfearon/Downloads/Crosshead.stl")
+      self.model.fileURL = fileURL
+      DispatchQueue.global(qos: .userInitiated).async {
+         self.validPathDropped = true
+         self.model.start()
+      }
+      // ****
    }
 }
 

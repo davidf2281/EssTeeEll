@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8C0BEA26295F587B002DB15E /* PlatformSpecific.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0BEA25295F587B002DB15E /* PlatformSpecific.swift */; };
 		8C91D2912951F03F00271982 /* FilingSystemItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D2902951F03F00271982 /* FilingSystemItem.swift */; };
 		8C91D2942951F2E700271982 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D2932951F2E700271982 /* ContentView.swift */; };
 		8C91D2972951F32A00271982 /* MeshViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D2962951F32A00271982 /* MeshViewModel.swift */; };
@@ -44,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8C0BEA25295F587B002DB15E /* PlatformSpecific.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformSpecific.swift; sourceTree = "<group>"; };
 		8C91D2902951F03F00271982 /* FilingSystemItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilingSystemItem.swift; sourceTree = "<group>"; };
 		8C91D2932951F2E700271982 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		8C91D2962951F32A00271982 /* MeshViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshViewModel.swift; sourceTree = "<group>"; };
@@ -92,6 +94,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8C0BEA24295F586B002DB15E /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				8C0BEA25295F587B002DB15E /* PlatformSpecific.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
 		8C4B8CF22953927A0094AC16 /* Factory */ = {
 			isa = PBXGroup;
 			children = (
@@ -140,6 +150,7 @@
 		8CCCE6802950C7E60008D4F2 /* EssTeeEll */ = {
 			isa = PBXGroup;
 			children = (
+				8C0BEA24295F586B002DB15E /* Utility */,
 				8C9BFACD2959DA8000B8F2C0 /* DumpingGround.swift */,
 				8CCCE6812950C7E60008D4F2 /* EssTeeEllApp.swift */,
 				8C4B8CF22953927A0094AC16 /* Factory */,
@@ -333,6 +344,7 @@
 				8C9BFACE2959DA8000B8F2C0 /* DumpingGround.swift in Sources */,
 				8C91D29E2953532D00271982 /* SCNGeometrySourceFactory.swift in Sources */,
 				8CCCE6AE2950C8470008D4F2 /* Solid.swift in Sources */,
+				8C0BEA26295F587B002DB15E /* PlatformSpecific.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -31,8 +31,16 @@ struct ContentView: View {
             parsingView()
          case .parsed:
             parsedView()
+//               .contentShape(Rectangle())
+//               .onTapGesture {
+//                  print("Hi!")
+//               }
          case .error:
             errorView()
+//               .contentShape(Rectangle())
+//               .onTapGesture {
+//                  print("Hi!")
+//               }
       }
    }
 }
@@ -78,43 +86,23 @@ extension ContentView: DropDelegate {
    }
 }
 
-struct NaiveMeshView: View {
-   
-   private var viewModel: MeshViewModel
-   
-   init(viewModel: MeshViewModel) {
-      self.viewModel = viewModel
-   }
-   
-   var body: some View {
-      let scaleFactor: Float = 15
-      GeometryReader { reader in
-         let widthByTwo = Float(reader.size.width / 2)
-         let heightByTwo = Float(reader.size.height / 2)
-         Path() { path in
-            for facet in viewModel.solid!.facets { // TODO: remove force-unwrap
-               path.move(to: CGPoint(x: Double(facet.outerLoop[0].x * scaleFactor + widthByTwo), y: Double(facet.outerLoop[0].y * scaleFactor + heightByTwo)))
-               path.addLine(to: CGPoint(x: Double(facet.outerLoop[1].x * scaleFactor + widthByTwo), y: Double(facet.outerLoop[1].y * scaleFactor + heightByTwo)))
-               path.addLine(to: CGPoint(x: Double(facet.outerLoop[2].x * scaleFactor + widthByTwo), y: Double(facet.outerLoop[2].y * scaleFactor + heightByTwo)))
-            }
-         }.stroke(Color.black, lineWidth: 1)
-      }
-   }
-}
-
 struct SceneKitMeshView: View {
-      
+   
    let scene: SCNScene
-   let backgroundNSColor = NSColor.black
+   let geometryNode: SCNNode
+   let backgroundNSColor = PlatformSpecific.color(.black)
+   
    let backgroundColor = Color.black
+   let renderDelegate = RenderDelegate()
    init(viewModel: MeshViewModel) {
       let scene = SCNScene()
       scene.background.contents = backgroundNSColor
       let geometryNode = SCNNode(geometry: viewModel.scnGeometry)
       scene.rootNode.addChildNode(geometryNode)
       self.scene = scene
+      self.geometryNode = geometryNode
    }
-      
+   
    var cameraNode: SCNNode? {
       let cameraNode = SCNNode()
       let camera = SCNCamera()
@@ -126,15 +114,45 @@ struct SceneKitMeshView: View {
       return cameraNode
    }
    
+   var tapGesture: some Gesture {
+      SpatialTapGesture()
+         .onEnded { event in
+            if let renderer = self.renderDelegate.renderer {
+               let hits = renderer.hitTest(event.location, options: [.rootNode : self.geometryNode])
+               if let tappedNode = hits.first?.node {
+                  print("Tapped at \(event.location.x), \(event.location.y)")
+                  print("Got a hit")
+               }
+            }
+         }
+   }
+   
    var body: some View {
-      SceneView(
-         scene: self.scene,
-         pointOfView: self.cameraNode,
-         options: [
-            .allowsCameraControl,
-            .autoenablesDefaultLighting,
-            .temporalAntialiasingEnabled
-         ]
-      ).background(backgroundColor)
+      VStack{
+         SceneView(
+            scene: self.scene,
+            pointOfView: self.cameraNode,
+            options: [
+                              .allowsCameraControl,
+               .autoenablesDefaultLighting,
+               .temporalAntialiasingEnabled
+            ],
+            delegate: renderDelegate
+         )
+         .background(backgroundColor)
+      }
+            .contentShape(Rectangle())
+            .gesture(self.tapGesture)
+   }
+}
+
+class RenderDelegate: NSObject, SCNSceneRendererDelegate {
+   
+   var renderer: SCNSceneRenderer?
+   
+   func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+      if self.renderer == nil || self.renderer !== renderer{
+         self.renderer = renderer
+      }
    }
 }

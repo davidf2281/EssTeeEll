@@ -27,7 +27,9 @@ class MeshParser: MeshParsing, ObservableObject {
       
       self.state = .parsing
       
-      let fileType = fileType(fileURL)
+//      let fileType = fileType(fileURL) // TODO: Uncomment this line and delete the next when done debugging
+      let fileType: MeshParsingState.FileType = .binary
+      
       let result: Solid?
       switch fileType {
      
