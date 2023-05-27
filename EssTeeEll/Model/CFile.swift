@@ -1,20 +1,19 @@
 
-import Foundation
-
 //
-//  QFile.swift
-//  deedoop
+//  CFile.swift
 //
 //  Created by David Fearon on 08/02/2021.
 //
 
 import Foundation
 
-/// CREDIT: This class adapted from https://forums.swift.org/t/read-text-file-line-by-line/28852/6
+//************************************************************************************************
+// CREDIT: This class adapted from https://forums.swift.org/t/read-text-file-line-by-line/28852/6
+//************************************************************************************************
 
 class CFile: FilingSystemItem, ByteReading {
 
-    internal let url: URL
+    let url: URL
     private var file: UnsafeMutablePointer<FILE>?
 
     required init(url: URL) {
@@ -23,8 +22,7 @@ class CFile: FilingSystemItem, ByteReading {
     }
 
     deinit {
-        // You must close before releasing the last reference.
-        precondition(self.file == nil)
+        precondition(self.file == nil) // File must be closed before releasing the last reference.
     }
 
     func open() throws {

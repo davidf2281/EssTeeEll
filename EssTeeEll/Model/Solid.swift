@@ -29,12 +29,3 @@ struct Solid {
    let name: String
    let facets: [Facet]
 }
-
-struct SolidExtents {
-   let minX: Float
-   let minY: Float
-   let minZ: Float
-   let maxX: Float
-   let maxY: Float
-   let maxZ: Float
-}

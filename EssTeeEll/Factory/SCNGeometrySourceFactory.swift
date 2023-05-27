@@ -41,7 +41,6 @@ class SCNGeometrySourceFactory: SCNGeometrySourceFactoryContract {
       return geometrySource
    }
    
-   // TODO: From facets, not the Solid
    private static func vertexData(from solid: Solid) -> (vertexData: Data,
                                                          vertexCount: Int,
                                                          componentsPerVector: Int,
@@ -76,7 +75,6 @@ class SCNGeometrySourceFactory: SCNGeometrySourceFactoryContract {
             let startIndex = index * facetsPerThread
             let endIndex = startIndex + (facetsToProcess - 1)
             let byteBufferStartIndex = index * facetsPerThread * 3
-            print("Start index: \(startIndex), end index: \(endIndex), byteBuffer start index: \(byteBufferStartIndex)")
             convertToVertexDataFromFacets(solid.facets[startIndex...endIndex], byteBuffer: vertexDataBuffer, byteBufferStartIndex: byteBufferStartIndex)
           })
          
@@ -92,7 +90,7 @@ class SCNGeometrySourceFactory: SCNGeometrySourceFactoryContract {
               vertexCount: vertexCount,
               componentsPerVector: 3,
               bytesPerComponent: MemoryLayout<Float>.stride,
-              dataOffset: MemoryLayout.offset(of: \Vertex.x)!, // TODO: Consider removing force-unwrap
+              dataOffset: MemoryLayout.offset(of: \Vertex.x)!, // Force-unwrap is safe here; offset(of:) should never return nil in this case
               dataStride: MemoryLayout<Vertex>.stride)
    }
    
@@ -130,14 +128,4 @@ class SCNGeometrySourceFactory: SCNGeometrySourceFactoryContract {
          indexCounter += 3
       }
    }
-}
-
-fileprivate extension Array {
-   // Credit: adapted from https://stackoverflow.com/a/33802092/2201154
-   // Note, as documented in link above this will only work with trivial number types and likely not with, eg, String.
-    func asData() -> Data {
-        return self.withUnsafeBufferPointer({
-           Data(bytes: $0.baseAddress!, count: count * MemoryLayout<Element>.stride)
-        })
-    }
 }

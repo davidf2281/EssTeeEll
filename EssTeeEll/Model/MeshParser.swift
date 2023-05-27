@@ -19,7 +19,7 @@ class MeshParser: MeshParsing, ObservableObject {
    var parsingProgressPublisher: Published<Float>.Publisher { $parsingProgress }
    
    func start() {
-            
+      
       guard let fileURL = self.fileURL else {
          self.state = .error(.readFileError)
          return
@@ -27,18 +27,17 @@ class MeshParser: MeshParsing, ObservableObject {
       
       self.state = .parsing
       
-//      let fileType = fileType(fileURL) // TODO: Uncomment this line and delete the next when done debugging
-      let fileType: MeshParsingState.FileType = .binary
+      let fileType = fileType(fileURL)
       
       let result: Solid?
       switch fileType {
-     
+            
          case .binary:
             result = parseBinary(fileURL)
-      
+            
          case .ascii:
-            result = parseASCII(fileURL)
-  
+            result = nil // ASCII unsupported since it's largely redundant
+            
          case .unknown:
             result = nil
       }
@@ -52,50 +51,50 @@ class MeshParser: MeshParsing, ObservableObject {
       self.state = .parsed
    }
    
-   // Determines whether the given file is in binary or ASCII STL format.
-   // If the first five bytes spell 'solid' we assume it's ASCII, otherwise assume it's binary
-   private func fileType(_ fileURL: URL) -> MeshParsingState.FileType {
-      guard let url = self.fileURL else {
-         return .unknown
-      }
-      
-      let cFile = CFile(url: url)
-      
-      defer {
-         cFile.close()
-      }
-      
-      do {
-         try cFile.open()
-         if let line = try cFile.readLine(maxLength: 5), line.count > 4 {
-            let characters = line[0...4].map { UInt8($0) }
-            let string = String(bytes: characters, encoding: .utf8)
-            return string == "solid" ? .ascii : .binary
-         }
-         return .unknown
-      } catch {
-         return .unknown
-      }
-   }
-   
    private func parseBinary(_ fileURL: URL) -> Solid? {
       
       let startTime = Date()
       
+      let result = readFacetData(fileURL)
+      
+      guard let facetCount = result?.facetCount, let facetDataBuffer = result?.facetDataBuffer else {
+         return nil
+      }
+      
+      guard let facets = processFacetDataBuffer(facetCount: facetCount, facetDataBuffer: facetDataBuffer) else {
+         return nil
+      }
+      
+      let elapsed = startTime.timeIntervalSinceNow
+      
+      print("Parsed in \(String(format: "%.2f", -elapsed)) seconds")
+      
+      let solid = Solid(name: fileURL.lastPathComponent, facets: facets)
+      
+      return solid
+   }
+   
+   private func readFacetData(_ fileURL: URL) -> (facetCount: Int, facetDataBuffer: UnsafeMutablePointer<UInt8>)? {
+      
       let headerLength = 80
       let bytesPerFacet = 50 // 12 four-byte floats, plus two 'attribute byte count' bytes we ignore from the facet data
       let facetCount: UInt32
-
+      
       guard let inputStream = InputStream(url: fileURL) else {
          return nil
       }
       
       inputStream.open()
-      defer { inputStream.close() }
+      defer {
+         inputStream.close()
+      }
       
       // Throw away the 80-byte header
       let headerBuffer = UnsafeMutablePointer<UInt8>.allocate(capacity: headerLength)
-      defer { headerBuffer.deallocate() }
+      defer {
+         headerBuffer.deallocate()
+      }
+      
       let headerBytesRead = inputStream.read(headerBuffer, maxLength: headerLength)
       guard headerBytesRead == 80 else {
          return nil
@@ -108,16 +107,30 @@ class MeshParser: MeshParsing, ObservableObject {
       }
       
       let facetCountBoundBuffer = UnsafeMutableRawPointer(facetCountBuffer).bindMemory(to: UInt32.self, capacity: 1)
-      defer { facetCountBoundBuffer.deallocate() }
+      defer {
+         facetCountBoundBuffer.deallocate()
+      }
+      
       facetCount = facetCountBoundBuffer.pointee
       print("There are \(facetCount) facets")
+      
       let totalFacetsByteCount = bytesPerFacet * Int(facetCount)
       let facetDataBuffer = UnsafeMutablePointer<UInt8>.allocate(capacity: totalFacetsByteCount)
-      defer { facetDataBuffer.deallocate() }
+      
+      defer {
+         facetDataBuffer.deallocate()
+      }
+      
       let facetBufferBytesRead = inputStream.read(facetDataBuffer, maxLength: totalFacetsByteCount)
+      
       guard facetBufferBytesRead == totalFacetsByteCount else {
          return nil
       }
+      
+      return (Int(facetCount), facetDataBuffer)
+   }
+   
+   private func processFacetDataBuffer(facetCount: Int, facetDataBuffer: UnsafeMutablePointer<UInt8>) -> [Solid.Facet]? {
       
       let queue = OperationQueue()
       let threadCount: Int
@@ -148,30 +161,23 @@ class MeshParser: MeshParsing, ObservableObject {
             lock.lock()
             facets += opFacets
             lock.unlock()
-          })
+         })
          
          queue.addOperation(operation)
       }
       
       queue.waitUntilAllOperationsAreFinished()
       
-      let solid = Solid(name: fileURL.lastPathComponent, facets: facets)
-      let elapsed = startTime.timeIntervalSinceNow
-      
-      print("Parsed in \(String(format: "%.2f", -elapsed)) seconds")
-      
-      return solid
-   }
-   
-   private func parseASCII(_ fileURL: URL) -> Solid? {
-      return nil // TODO:
+      return facets
    }
    
    private func parseMeshWithFacetBuffer(_ facetDataBuffer: UnsafeMutablePointer<UInt8>, startOffset: Int, facetCount: Int) -> [Solid.Facet] {
 
-      
       var facets: [Solid.Facet] = []
       facets.reserveCapacity(facetCount)
+      
+      var parsingProgressCount = 0
+      let parsingProgressUpdateThreshold = 10000
       
       for index in 0..<facetCount {
          
@@ -197,16 +203,46 @@ class MeshParser: MeshParsing, ObservableObject {
          let v1 = Solid.Vertex(x: v1x, y: v1y, z: v1z)
          let v2 = Solid.Vertex(x: v2x, y: v2y, z: v2z)
          let v3 = Solid.Vertex(x: v3x, y: v3y, z: v3z)
+         
          let facet = Solid.Facet(normal: normal, outerLoop: [v1, v2, v3])
          facets.append(facet)
          
-//         parsingProgressCount += 1
-//         if parsingProgressCount > parsingProgressUpdateThreshold {
-//            self.parsingProgress = Float(index) / Float(facetCount)
-//            parsingProgressCount = 0
-//         }
+         parsingProgressCount += 1
+         if parsingProgressCount > parsingProgressUpdateThreshold {
+            self.parsingProgress = Float(index) / Float(facetCount)
+            parsingProgressCount = 0
+         }
       }
       
       return facets
+   }
+}
+
+extension MeshParser {
+   // Determines whether the given STL file is in binary or ASCII STL format.
+   // If the first five bytes spell 'solid' we assume it's ASCII per STL specs,
+   // otherwise assume it's binary
+   private func fileType(_ fileURL: URL) -> MeshParsingState.FileType {
+      guard let url = self.fileURL else {
+         return .unknown
+      }
+      
+      let cFile = CFile(url: url)
+      
+      defer {
+         cFile.close()
+      }
+      
+      do {
+         try cFile.open()
+         if let line = try cFile.readLine(maxLength: 5), line.count > 4 {
+            let characters = line[0...4].map { UInt8($0) }
+            let string = String(bytes: characters, encoding: .utf8)
+            return string == "solid" ? .ascii : .binary
+         }
+         return .unknown
+      } catch {
+         return .unknown
+      }
    }
 }

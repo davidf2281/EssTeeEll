@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8C0BEA26295F587B002DB15E /* PlatformSpecific.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0BEA25295F587B002DB15E /* PlatformSpecific.swift */; };
 		8C91D2912951F03F00271982 /* FilingSystemItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D2902951F03F00271982 /* FilingSystemItem.swift */; };
 		8C91D2942951F2E700271982 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D2932951F2E700271982 /* ContentView.swift */; };
 		8C91D2972951F32A00271982 /* MeshViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D2962951F32A00271982 /* MeshViewModel.swift */; };
@@ -15,16 +14,15 @@
 		8C91D29C2951FED700271982 /* MeshParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D29B2951FED700271982 /* MeshParser.swift */; };
 		8C91D29E2953532D00271982 /* SCNGeometrySourceFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D29D2953532D00271982 /* SCNGeometrySourceFactory.swift */; };
 		8C91D2A0295364BC00271982 /* SCNGeometryElementFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D29F295364BC00271982 /* SCNGeometryElementFactory.swift */; };
-		8C9BFACE2959DA8000B8F2C0 /* DumpingGround.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9BFACD2959DA8000B8F2C0 /* DumpingGround.swift */; };
 		8CCCE6822950C7E60008D4F2 /* EssTeeEllApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCCE6812950C7E60008D4F2 /* EssTeeEllApp.swift */; };
-		8CCCE6862950C7E80008D4F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8CCCE6852950C7E80008D4F2 /* Assets.xcassets */; };
-		8CCCE68A2950C7E80008D4F2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8CCCE6892950C7E80008D4F2 /* Preview Assets.xcassets */; };
 		8CCCE6942950C7E80008D4F2 /* EssTeeEllTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCCE6932950C7E80008D4F2 /* EssTeeEllTests.swift */; };
 		8CCCE69E2950C7E80008D4F2 /* EssTeeEllUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCCE69D2950C7E80008D4F2 /* EssTeeEllUITests.swift */; };
 		8CCCE6A02950C7E80008D4F2 /* EssTeeEllUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCCE69F2950C7E80008D4F2 /* EssTeeEllUITestsLaunchTests.swift */; };
 		8CCCE6AE2950C8470008D4F2 /* Solid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCCE6AD2950C8470008D4F2 /* Solid.swift */; };
 		8CCCE6B02950D0C80008D4F2 /* CFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCCE6AF2950D0C80008D4F2 /* CFile.swift */; };
 		8CCCE6B22950D0F90008D4F2 /* ByteReading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCCE6B12950D0F90008D4F2 /* ByteReading.swift */; };
+		8CF9254A2A224DC2003ECCE6 /* SceneKitMeshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF925492A224DC2003ECCE6 /* SceneKitMeshView.swift */; };
+		8CF9254C2A2259FE003ECCE6 /* SolidExtents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF9254B2A2259FE003ECCE6 /* SolidExtents.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,7 +43,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8C0BEA25295F587B002DB15E /* PlatformSpecific.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformSpecific.swift; sourceTree = "<group>"; };
 		8C91D2902951F03F00271982 /* FilingSystemItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilingSystemItem.swift; sourceTree = "<group>"; };
 		8C91D2932951F2E700271982 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		8C91D2962951F32A00271982 /* MeshViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshViewModel.swift; sourceTree = "<group>"; };
@@ -53,12 +50,9 @@
 		8C91D29B2951FED700271982 /* MeshParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshParser.swift; sourceTree = "<group>"; };
 		8C91D29D2953532D00271982 /* SCNGeometrySourceFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNGeometrySourceFactory.swift; sourceTree = "<group>"; };
 		8C91D29F295364BC00271982 /* SCNGeometryElementFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNGeometryElementFactory.swift; sourceTree = "<group>"; };
-		8C9BFACD2959DA8000B8F2C0 /* DumpingGround.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DumpingGround.swift; sourceTree = "<group>"; };
 		8CCCE67E2950C7E60008D4F2 /* EssTeeEll.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EssTeeEll.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CCCE6812950C7E60008D4F2 /* EssTeeEllApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EssTeeEllApp.swift; sourceTree = "<group>"; };
-		8CCCE6852950C7E80008D4F2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8CCCE6872950C7E80008D4F2 /* EssTeeEll.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EssTeeEll.entitlements; sourceTree = "<group>"; };
-		8CCCE6892950C7E80008D4F2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		8CCCE68F2950C7E80008D4F2 /* EssTeeEllTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EssTeeEllTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CCCE6932950C7E80008D4F2 /* EssTeeEllTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EssTeeEllTests.swift; sourceTree = "<group>"; };
 		8CCCE6992950C7E80008D4F2 /* EssTeeEllUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EssTeeEllUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -67,6 +61,8 @@
 		8CCCE6AD2950C8470008D4F2 /* Solid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solid.swift; sourceTree = "<group>"; };
 		8CCCE6AF2950D0C80008D4F2 /* CFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFile.swift; sourceTree = "<group>"; };
 		8CCCE6B12950D0F90008D4F2 /* ByteReading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByteReading.swift; sourceTree = "<group>"; };
+		8CF925492A224DC2003ECCE6 /* SceneKitMeshView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitMeshView.swift; sourceTree = "<group>"; };
+		8CF9254B2A2259FE003ECCE6 /* SolidExtents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolidExtents.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,14 +90,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8C0BEA24295F586B002DB15E /* Utility */ = {
-			isa = PBXGroup;
-			children = (
-				8C0BEA25295F587B002DB15E /* PlatformSpecific.swift */,
-			);
-			path = Utility;
-			sourceTree = "<group>";
-		};
 		8C4B8CF22953927A0094AC16 /* Factory */ = {
 			isa = PBXGroup;
 			children = (
@@ -115,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				8C91D2932951F2E700271982 /* ContentView.swift */,
+				8CF925492A224DC2003ECCE6 /* SceneKitMeshView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -131,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				8CCCE6802950C7E60008D4F2 /* EssTeeEll */,
+				8CF9254F2A227348003ECCE6 /* Entitlements */,
 				8CCCE6922950C7E80008D4F2 /* EssTeeEllTests */,
 				8CCCE69C2950C7E80008D4F2 /* EssTeeEllUITests */,
 				8CCCE67F2950C7E60008D4F2 /* Products */,
@@ -150,26 +140,13 @@
 		8CCCE6802950C7E60008D4F2 /* EssTeeEll */ = {
 			isa = PBXGroup;
 			children = (
-				8C0BEA24295F586B002DB15E /* Utility */,
-				8C9BFACD2959DA8000B8F2C0 /* DumpingGround.swift */,
 				8CCCE6812950C7E60008D4F2 /* EssTeeEllApp.swift */,
 				8C4B8CF22953927A0094AC16 /* Factory */,
-				8C91D2952951F31C00271982 /* Viewmodel */,
 				8C91D2922951F2D700271982 /* View */,
+				8C91D2952951F31C00271982 /* Viewmodel */,
 				8CCCE6AC2950C8190008D4F2 /* Model */,
-				8CCCE6852950C7E80008D4F2 /* Assets.xcassets */,
-				8CCCE6872950C7E80008D4F2 /* EssTeeEll.entitlements */,
-				8CCCE6882950C7E80008D4F2 /* Preview Content */,
 			);
 			path = EssTeeEll;
-			sourceTree = "<group>";
-		};
-		8CCCE6882950C7E80008D4F2 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				8CCCE6892950C7E80008D4F2 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		8CCCE6922950C7E80008D4F2 /* EssTeeEllTests */ = {
@@ -198,8 +175,17 @@
 				8C91D29B2951FED700271982 /* MeshParser.swift */,
 				8C91D2982951F4D700271982 /* MeshParsing.swift */,
 				8CCCE6AD2950C8470008D4F2 /* Solid.swift */,
+				8CF9254B2A2259FE003ECCE6 /* SolidExtents.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		8CF9254F2A227348003ECCE6 /* Entitlements */ = {
+			isa = PBXGroup;
+			children = (
+				8CCCE6872950C7E80008D4F2 /* EssTeeEll.entitlements */,
+			);
+			path = Entitlements;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -266,7 +252,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1410;
-				LastUpgradeCheck = 1410;
+				LastUpgradeCheck = 1420;
 				TargetAttributes = {
 					8CCCE67D2950C7E60008D4F2 = {
 						CreatedOnToolsVersion = 14.1;
@@ -306,8 +292,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8CCCE68A2950C7E80008D4F2 /* Preview Assets.xcassets in Resources */,
-				8CCCE6862950C7E80008D4F2 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,6 +317,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C91D2942951F2E700271982 /* ContentView.swift in Sources */,
+				8CF9254C2A2259FE003ECCE6 /* SolidExtents.swift in Sources */,
+				8CF9254A2A224DC2003ECCE6 /* SceneKitMeshView.swift in Sources */,
 				8C91D2992951F4D700271982 /* MeshParsing.swift in Sources */,
 				8CCCE6B02950D0C80008D4F2 /* CFile.swift in Sources */,
 				8C91D2972951F32A00271982 /* MeshViewModel.swift in Sources */,
@@ -341,10 +327,8 @@
 				8CCCE6822950C7E60008D4F2 /* EssTeeEllApp.swift in Sources */,
 				8CCCE6B22950D0F90008D4F2 /* ByteReading.swift in Sources */,
 				8C91D2912951F03F00271982 /* FilingSystemItem.swift in Sources */,
-				8C9BFACE2959DA8000B8F2C0 /* DumpingGround.swift in Sources */,
 				8C91D29E2953532D00271982 /* SCNGeometrySourceFactory.swift in Sources */,
 				8CCCE6AE2950C8470008D4F2 /* Solid.swift in Sources */,
-				8C0BEA26295F587B002DB15E /* PlatformSpecific.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,6 +398,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -472,6 +457,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -495,10 +481,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = EssTeeEll/EssTeeEll.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Entitlements/EssTeeEll.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"EssTeeEll/Preview Content\"";
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = UE24L5QUH7;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -521,10 +509,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.davidfearon.EssTeeEll;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = macosx;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -533,10 +522,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = EssTeeEll/EssTeeEll.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Entitlements/EssTeeEll.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"EssTeeEll/Preview Content\"";
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = UE24L5QUH7;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -559,11 +550,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.davidfearon.EssTeeEll;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = macosx;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -574,6 +566,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = UE24L5QUH7;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
@@ -597,6 +590,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = UE24L5QUH7;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
@@ -619,6 +613,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = UE24L5QUH7;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
@@ -641,6 +636,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = UE24L5QUH7;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
