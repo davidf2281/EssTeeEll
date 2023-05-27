@@ -1,4 +1,5 @@
-# EssTeeEll: Multithreaded Parsing of Binary STL Files in Swift
+# EssTeeEll
+### Multithreaded Parsing of Binary STL Files in Swift
 
 ![screenshot](https://github.com/davidf2281/EssTeeEll/blob/readme-assets/Screenshot.png)
 
