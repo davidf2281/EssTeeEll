@@ -7,6 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8C8D31DD2A25200D00CF30FE /* pyramid.stl in Resources */ = {isa = PBXBuildFile; fileRef = 8C8D31DC2A25195A00CF30FE /* pyramid.stl */; };
+		8C8D31DE2A25208600CF30FE /* MeshParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D29B2951FED700271982 /* MeshParser.swift */; };
+		8C8D31DF2A25229900CF30FE /* Solid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCCE6AD2950C8470008D4F2 /* Solid.swift */; };
+		8C8D31E02A25229900CF30FE /* MeshViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D2962951F32A00271982 /* MeshViewModel.swift */; };
+		8C8D31E12A25229900CF30FE /* EssTeeEllApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCCE6812950C7E60008D4F2 /* EssTeeEllApp.swift */; };
+		8C8D31E22A25229900CF30FE /* SceneKitMeshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF925492A224DC2003ECCE6 /* SceneKitMeshView.swift */; };
+		8C8D31E32A25229900CF30FE /* CFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCCE6AF2950D0C80008D4F2 /* CFile.swift */; };
+		8C8D31E42A25229900CF30FE /* SCNGeometryElementFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D29F295364BC00271982 /* SCNGeometryElementFactory.swift */; };
+		8C8D31E52A25229900CF30FE /* FilingSystemItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D2902951F03F00271982 /* FilingSystemItem.swift */; };
+		8C8D31E62A25229900CF30FE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D2932951F2E700271982 /* ContentView.swift */; };
+		8C8D31E72A25229900CF30FE /* ByteReading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCCE6B12950D0F90008D4F2 /* ByteReading.swift */; };
+		8C8D31E82A25229900CF30FE /* SCNGeometrySourceFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D29D2953532D00271982 /* SCNGeometrySourceFactory.swift */; };
+		8C8D31E92A25229900CF30FE /* MeshParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D2982951F4D700271982 /* MeshParsing.swift */; };
+		8C8D31EA2A25229900CF30FE /* SolidExtents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF9254B2A2259FE003ECCE6 /* SolidExtents.swift */; };
+		8C8D31EC2A252C1100CF30FE /* nonManifoldOddFacetCount.stl in Resources */ = {isa = PBXBuildFile; fileRef = 8C8D31EB2A252BB600CF30FE /* nonManifoldOddFacetCount.stl */; };
 		8C91D2912951F03F00271982 /* FilingSystemItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D2902951F03F00271982 /* FilingSystemItem.swift */; };
 		8C91D2942951F2E700271982 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D2932951F2E700271982 /* ContentView.swift */; };
 		8C91D2972951F32A00271982 /* MeshViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D2962951F32A00271982 /* MeshViewModel.swift */; };
@@ -15,9 +30,7 @@
 		8C91D29E2953532D00271982 /* SCNGeometrySourceFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D29D2953532D00271982 /* SCNGeometrySourceFactory.swift */; };
 		8C91D2A0295364BC00271982 /* SCNGeometryElementFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C91D29F295364BC00271982 /* SCNGeometryElementFactory.swift */; };
 		8CCCE6822950C7E60008D4F2 /* EssTeeEllApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCCE6812950C7E60008D4F2 /* EssTeeEllApp.swift */; };
-		8CCCE6942950C7E80008D4F2 /* EssTeeEllTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCCE6932950C7E80008D4F2 /* EssTeeEllTests.swift */; };
-		8CCCE69E2950C7E80008D4F2 /* EssTeeEllUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCCE69D2950C7E80008D4F2 /* EssTeeEllUITests.swift */; };
-		8CCCE6A02950C7E80008D4F2 /* EssTeeEllUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCCE69F2950C7E80008D4F2 /* EssTeeEllUITestsLaunchTests.swift */; };
+		8CCCE6942950C7E80008D4F2 /* BinaryParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCCE6932950C7E80008D4F2 /* BinaryParsingTests.swift */; };
 		8CCCE6AE2950C8470008D4F2 /* Solid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCCE6AD2950C8470008D4F2 /* Solid.swift */; };
 		8CCCE6B02950D0C80008D4F2 /* CFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCCE6AF2950D0C80008D4F2 /* CFile.swift */; };
 		8CCCE6B22950D0F90008D4F2 /* ByteReading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCCE6B12950D0F90008D4F2 /* ByteReading.swift */; };
@@ -33,16 +46,11 @@
 			remoteGlobalIDString = 8CCCE67D2950C7E60008D4F2;
 			remoteInfo = EssTeeEll;
 		};
-		8CCCE69A2950C7E80008D4F2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8CCCE6762950C7E60008D4F2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8CCCE67D2950C7E60008D4F2;
-			remoteInfo = EssTeeEll;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8C8D31DC2A25195A00CF30FE /* pyramid.stl */ = {isa = PBXFileReference; lastKnownFileType = file; path = pyramid.stl; sourceTree = "<group>"; };
+		8C8D31EB2A252BB600CF30FE /* nonManifoldOddFacetCount.stl */ = {isa = PBXFileReference; lastKnownFileType = file; path = nonManifoldOddFacetCount.stl; sourceTree = "<group>"; };
 		8C91D2902951F03F00271982 /* FilingSystemItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilingSystemItem.swift; sourceTree = "<group>"; };
 		8C91D2932951F2E700271982 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		8C91D2962951F32A00271982 /* MeshViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshViewModel.swift; sourceTree = "<group>"; };
@@ -54,10 +62,7 @@
 		8CCCE6812950C7E60008D4F2 /* EssTeeEllApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EssTeeEllApp.swift; sourceTree = "<group>"; };
 		8CCCE6872950C7E80008D4F2 /* EssTeeEll.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EssTeeEll.entitlements; sourceTree = "<group>"; };
 		8CCCE68F2950C7E80008D4F2 /* EssTeeEllTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EssTeeEllTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8CCCE6932950C7E80008D4F2 /* EssTeeEllTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EssTeeEllTests.swift; sourceTree = "<group>"; };
-		8CCCE6992950C7E80008D4F2 /* EssTeeEllUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EssTeeEllUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8CCCE69D2950C7E80008D4F2 /* EssTeeEllUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EssTeeEllUITests.swift; sourceTree = "<group>"; };
-		8CCCE69F2950C7E80008D4F2 /* EssTeeEllUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EssTeeEllUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		8CCCE6932950C7E80008D4F2 /* BinaryParsingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryParsingTests.swift; sourceTree = "<group>"; };
 		8CCCE6AD2950C8470008D4F2 /* Solid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solid.swift; sourceTree = "<group>"; };
 		8CCCE6AF2950D0C80008D4F2 /* CFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFile.swift; sourceTree = "<group>"; };
 		8CCCE6B12950D0F90008D4F2 /* ByteReading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByteReading.swift; sourceTree = "<group>"; };
@@ -80,13 +85,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8CCCE6962950C7E80008D4F2 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -97,6 +95,15 @@
 				8C91D29F295364BC00271982 /* SCNGeometryElementFactory.swift */,
 			);
 			path = Factory;
+			sourceTree = "<group>";
+		};
+		8C8D31DB2A25193B00CF30FE /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				8C8D31EB2A252BB600CF30FE /* nonManifoldOddFacetCount.stl */,
+				8C8D31DC2A25195A00CF30FE /* pyramid.stl */,
+			);
+			path = Assets;
 			sourceTree = "<group>";
 		};
 		8C91D2922951F2D700271982 /* View */ = {
@@ -122,7 +129,6 @@
 				8CCCE6802950C7E60008D4F2 /* EssTeeEll */,
 				8CF9254F2A227348003ECCE6 /* Entitlements */,
 				8CCCE6922950C7E80008D4F2 /* EssTeeEllTests */,
-				8CCCE69C2950C7E80008D4F2 /* EssTeeEllUITests */,
 				8CCCE67F2950C7E60008D4F2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -132,7 +138,6 @@
 			children = (
 				8CCCE67E2950C7E60008D4F2 /* EssTeeEll.app */,
 				8CCCE68F2950C7E80008D4F2 /* EssTeeEllTests.xctest */,
-				8CCCE6992950C7E80008D4F2 /* EssTeeEllUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -152,18 +157,10 @@
 		8CCCE6922950C7E80008D4F2 /* EssTeeEllTests */ = {
 			isa = PBXGroup;
 			children = (
-				8CCCE6932950C7E80008D4F2 /* EssTeeEllTests.swift */,
+				8C8D31DB2A25193B00CF30FE /* Assets */,
+				8CCCE6932950C7E80008D4F2 /* BinaryParsingTests.swift */,
 			);
 			path = EssTeeEllTests;
-			sourceTree = "<group>";
-		};
-		8CCCE69C2950C7E80008D4F2 /* EssTeeEllUITests */ = {
-			isa = PBXGroup;
-			children = (
-				8CCCE69D2950C7E80008D4F2 /* EssTeeEllUITests.swift */,
-				8CCCE69F2950C7E80008D4F2 /* EssTeeEllUITestsLaunchTests.swift */,
-			);
-			path = EssTeeEllUITests;
 			sourceTree = "<group>";
 		};
 		8CCCE6AC2950C8190008D4F2 /* Model */ = {
@@ -226,24 +223,6 @@
 			productReference = 8CCCE68F2950C7E80008D4F2 /* EssTeeEllTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		8CCCE6982950C7E80008D4F2 /* EssTeeEllUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 8CCCE6A92950C7E80008D4F2 /* Build configuration list for PBXNativeTarget "EssTeeEllUITests" */;
-			buildPhases = (
-				8CCCE6952950C7E80008D4F2 /* Sources */,
-				8CCCE6962950C7E80008D4F2 /* Frameworks */,
-				8CCCE6972950C7E80008D4F2 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				8CCCE69B2950C7E80008D4F2 /* PBXTargetDependency */,
-			);
-			name = EssTeeEllUITests;
-			productName = EssTeeEllUITests;
-			productReference = 8CCCE6992950C7E80008D4F2 /* EssTeeEllUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -259,11 +238,6 @@
 					};
 					8CCCE68E2950C7E80008D4F2 = {
 						CreatedOnToolsVersion = 14.1;
-						TestTargetID = 8CCCE67D2950C7E60008D4F2;
-					};
-					8CCCE6982950C7E80008D4F2 = {
-						CreatedOnToolsVersion = 14.1;
-						TestTargetID = 8CCCE67D2950C7E60008D4F2;
 					};
 				};
 			};
@@ -282,7 +256,6 @@
 			targets = (
 				8CCCE67D2950C7E60008D4F2 /* EssTeeEll */,
 				8CCCE68E2950C7E80008D4F2 /* EssTeeEllTests */,
-				8CCCE6982950C7E80008D4F2 /* EssTeeEllUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -299,13 +272,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8CCCE6972950C7E80008D4F2 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				8C8D31DD2A25200D00CF30FE /* pyramid.stl in Resources */,
+				8C8D31EC2A252C1100CF30FE /* nonManifoldOddFacetCount.stl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,16 +304,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8CCCE6942950C7E80008D4F2 /* EssTeeEllTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8CCCE6952950C7E80008D4F2 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8CCCE69E2950C7E80008D4F2 /* EssTeeEllUITests.swift in Sources */,
-				8CCCE6A02950C7E80008D4F2 /* EssTeeEllUITestsLaunchTests.swift in Sources */,
+				8CCCE6942950C7E80008D4F2 /* BinaryParsingTests.swift in Sources */,
+				8C8D31EA2A25229900CF30FE /* SolidExtents.swift in Sources */,
+				8C8D31E12A25229900CF30FE /* EssTeeEllApp.swift in Sources */,
+				8C8D31DE2A25208600CF30FE /* MeshParser.swift in Sources */,
+				8C8D31E22A25229900CF30FE /* SceneKitMeshView.swift in Sources */,
+				8C8D31E92A25229900CF30FE /* MeshParsing.swift in Sources */,
+				8C8D31E72A25229900CF30FE /* ByteReading.swift in Sources */,
+				8C8D31E42A25229900CF30FE /* SCNGeometryElementFactory.swift in Sources */,
+				8C8D31DF2A25229900CF30FE /* Solid.swift in Sources */,
+				8C8D31E62A25229900CF30FE /* ContentView.swift in Sources */,
+				8C8D31E32A25229900CF30FE /* CFile.swift in Sources */,
+				8C8D31E52A25229900CF30FE /* FilingSystemItem.swift in Sources */,
+				8C8D31E82A25229900CF30FE /* SCNGeometrySourceFactory.swift in Sources */,
+				8C8D31E02A25229900CF30FE /* MeshViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -356,11 +328,6 @@
 			isa = PBXTargetDependency;
 			target = 8CCCE67D2950C7E60008D4F2 /* EssTeeEll */;
 			targetProxy = 8CCCE6902950C7E80008D4F2 /* PBXContainerItemProxy */;
-		};
-		8CCCE69B2950C7E80008D4F2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8CCCE67D2950C7E60008D4F2 /* EssTeeEll */;
-			targetProxy = 8CCCE69A2950C7E80008D4F2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -563,7 +530,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
@@ -575,11 +541,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.davidfearon.EssTeeEllTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = macosx;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EssTeeEll.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/EssTeeEll";
 			};
 			name = Debug;
 		};
@@ -587,7 +553,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
@@ -599,57 +564,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.davidfearon.EssTeeEllTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = macosx;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EssTeeEll.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/EssTeeEll";
-			};
-			name = Release;
-		};
-		8CCCE6AA2950C7E80008D4F2 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = UE24L5QUH7;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.davidfearon.EssTeeEllUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = EssTeeEll;
-			};
-			name = Debug;
-		};
-		8CCCE6AB2950C7E80008D4F2 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = UE24L5QUH7;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.davidfearon.EssTeeEllUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = EssTeeEll;
 			};
 			name = Release;
 		};
@@ -679,15 +598,6 @@
 			buildConfigurations = (
 				8CCCE6A72950C7E80008D4F2 /* Debug */,
 				8CCCE6A82950C7E80008D4F2 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		8CCCE6A92950C7E80008D4F2 /* Build configuration list for PBXNativeTarget "EssTeeEllUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				8CCCE6AA2950C7E80008D4F2 /* Debug */,
-				8CCCE6AB2950C7E80008D4F2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

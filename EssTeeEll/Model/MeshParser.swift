@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MeshParser: MeshParsing, ObservableObject {
+final class MeshParser: MeshParsing, ObservableObject {
    
    var fileURL: URL?
    public private(set) var solid: Solid? = nil
@@ -17,6 +17,12 @@ class MeshParser: MeshParsing, ObservableObject {
    
    @Published public private(set) var parsingProgress: Float = 0
    var parsingProgressPublisher: Published<Float>.Publisher { $parsingProgress }
+   
+   private let coreCount: Int
+   
+   init(coreCount: Int = ProcessInfo.processInfo.activeProcessorCount) {
+      self.coreCount = coreCount
+   }
    
    func start() {
       
@@ -51,7 +57,7 @@ class MeshParser: MeshParsing, ObservableObject {
       self.state = .parsed
    }
    
-   private func parseBinary(_ fileURL: URL) -> Solid? {
+   func parseBinary(_ fileURL: URL) -> Solid? {
       
       let startTime = Date()
       
@@ -59,6 +65,10 @@ class MeshParser: MeshParsing, ObservableObject {
       
       guard let facetCount = result?.facetCount, let facetDataBuffer = result?.facetDataBuffer else {
          return nil
+      }
+      
+      defer {
+         facetDataBuffer.deallocate()
       }
       
       guard let facets = processFacetDataBuffer(facetCount: facetCount, facetDataBuffer: facetDataBuffer) else {
@@ -117,10 +127,6 @@ class MeshParser: MeshParsing, ObservableObject {
       let totalFacetsByteCount = bytesPerFacet * Int(facetCount)
       let facetDataBuffer = UnsafeMutablePointer<UInt8>.allocate(capacity: totalFacetsByteCount)
       
-      defer {
-         facetDataBuffer.deallocate()
-      }
-      
       let facetBufferBytesRead = inputStream.read(facetDataBuffer, maxLength: totalFacetsByteCount)
       
       guard facetBufferBytesRead == totalFacetsByteCount else {
@@ -134,14 +140,12 @@ class MeshParser: MeshParsing, ObservableObject {
       
       let queue = OperationQueue()
       let threadCount: Int
-      
-      let coreCount = ProcessInfo.processInfo.activeProcessorCount
-      
+            
       // Account for the edge case where number of available cores exceeds number of facets
-      if facetCount < coreCount {
+      if facetCount < self.coreCount {
          threadCount = Int(facetCount)
       } else {
-         threadCount = coreCount
+         threadCount = self.coreCount
       }
       
       queue.maxConcurrentOperationCount = threadCount
@@ -157,7 +161,7 @@ class MeshParser: MeshParsing, ObservableObject {
          let facetsToProcess = (index == (0..<threadCount).last) ? facetsPerThread + facetRemainder : facetsPerThread
          
          let operation = BlockOperation(block: {
-            let opFacets = self.parseMeshWithFacetBuffer(facetDataBuffer, startOffset: facetsPerThread * index, facetCount: facetsToProcess)
+            let opFacets = self.parseMesh(with: facetDataBuffer, startOffset: facetsPerThread * index, facetCount: facetsToProcess)
             lock.lock()
             facets += opFacets
             lock.unlock()
@@ -171,7 +175,7 @@ class MeshParser: MeshParsing, ObservableObject {
       return facets
    }
    
-   private func parseMeshWithFacetBuffer(_ facetDataBuffer: UnsafeMutablePointer<UInt8>, startOffset: Int, facetCount: Int) -> [Solid.Facet] {
+   private func parseMesh(with facetDataBuffer: UnsafeMutablePointer<UInt8>, startOffset: Int, facetCount: Int) -> [Solid.Facet] {
 
       var facets: [Solid.Facet] = []
       facets.reserveCapacity(facetCount)

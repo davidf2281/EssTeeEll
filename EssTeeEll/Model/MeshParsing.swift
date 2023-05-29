@@ -34,5 +34,6 @@ protocol MeshParsing {
    var parsingProgress: Float { get }
    var parsingProgressPublisher: Published<Float>.Publisher { get }
 
+   init(coreCount: Int)
    func start()
 }
