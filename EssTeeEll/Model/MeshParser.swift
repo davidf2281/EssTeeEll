@@ -10,7 +10,8 @@ import Foundation
 final class MeshParser: MeshParsing, ObservableObject {
    
    var fileURL: URL?
-   public private(set) var solid: Solid? = nil
+    
+   private(set) var solid: Solid? = nil
    
    @Published public private(set) var state: MeshParsingState = .initial
    var statePublisher: Published<MeshParsingState>.Publisher { $state }
