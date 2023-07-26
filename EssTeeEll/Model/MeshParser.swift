@@ -21,6 +21,10 @@ final class MeshParser: MeshParsing, ObservableObject {
    
    private let coreCount: Int
    
+   /// The 50 bytes comprise 12 four-byte floats plus two 'attribute byte count'
+   /// bytes which are redundant and we ignore.
+   private let bytesPerFacet = 50
+    
    init(coreCount: Int = ProcessInfo.processInfo.activeProcessorCount) {
       self.coreCount = coreCount
    }
@@ -88,7 +92,7 @@ final class MeshParser: MeshParsing, ObservableObject {
    private func readFacetData(_ fileURL: URL) -> (facetCount: Int, facetDataBuffer: UnsafeMutablePointer<UInt8>)? {
       
       let headerLength = 80
-      let bytesPerFacet = 50 // 12 four-byte floats, plus two 'attribute byte count' bytes we ignore from the facet data
+      
       let facetCount: UInt32
       
       guard let inputStream = InputStream(url: fileURL) else {
@@ -186,7 +190,7 @@ final class MeshParser: MeshParsing, ObservableObject {
       
       for index in 0..<facetCount {
          
-         let boundFloatsBuffer = UnsafeMutableRawPointer(facetDataBuffer + (startOffset * 50) + Int(index) * 50).bindMemory(to: Float32.self, capacity: 12)
+         let boundFloatsBuffer = UnsafeMutableRawPointer(facetDataBuffer + (startOffset * bytesPerFacet) + Int(index) * bytesPerFacet).bindMemory(to: Float32.self, capacity: 12)
          
          let i = (boundFloatsBuffer + 0).pointee
          let j = (boundFloatsBuffer + 1).pointee

@@ -29,9 +29,9 @@ class MeshViewModel: ObservableObject {
       
       model.statePublisher
          .receive(on:DispatchQueue.global(qos: .userInitiated))
-         .sink { (state) in
-            self.solid = model.solid
-            if case .parsed = state, let solid = self.solid {
+         .sink { [weak self] state in
+            self?.solid = model.solid
+            if case .parsed = state, let solid = self?.solid {
                let geometrySource = SCNGeometrySourceFactory.scnGeometrySource(from: solid)
                let geometryElement = SCNGeometryElementFactory.scnGeometryElement(from: solid)
                let geometry = SCNGeometry(sources: [geometrySource], elements: [geometryElement])
@@ -40,17 +40,17 @@ class MeshViewModel: ObservableObject {
                material.diffuse.contents = NSColor(.green)
                geometry.materials = [material]
                
-               self.scnGeometry = geometry
+               self?.scnGeometry = geometry
             }
             
             DispatchQueue.main.async {
-               self.parsingState = state
+               self?.parsingState = state
             }
          }.store(in: &cancellables)
       
       model.parsingProgressPublisher
          .receive(on: DispatchQueue.main)
-         .sink { (parsingProgress) in
+         .sink { parsingProgress in
             self.parsingProgress = parsingProgress
          }.store(in: &cancellables)
    }
